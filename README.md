@@ -2,7 +2,7 @@
 
 ## test0: isdigit 的参数好奇怪
 
-观察如下函数，为什么 isidigit 传递的参数这么复杂？
+观察如下函数，为什么 isdigit 传递的参数这么复杂？
 
 ```c
     static const char * scanformat(const char *strfrmt, char *form) {
