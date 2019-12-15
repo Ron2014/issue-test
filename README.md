@@ -32,3 +32,9 @@
         return p;
     }
 ```
+
+## test1: 判断字符串b是否是字符串a的子串
+
+char * strstr(char *a, char* b);
+
+如果是，返回子串b在a中的起始指针，否则返回NULL。
