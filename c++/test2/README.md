@@ -27,3 +27,6 @@ std::atomic_int i{0};
                  ;
 1 error generated.
 ```
+# reference
+
+[C++性能榨汁机之无锁编程](http://irootlee.com/juicer_lock_free/)
