@@ -18,6 +18,7 @@ for linux, need -lpthread
 
 compile on MacOS:
 
+```
 In file included from test2.cc:4:
 In file included from ./test2.h:8:
 ./use_atomic.h:4:18: error: expected ';' after top level declarator
@@ -25,3 +26,4 @@ std::atomic_int i{0};
                  ^
                  ;
 1 error generated.
+```
