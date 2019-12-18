@@ -38,3 +38,7 @@
 char * strstr(char *a, char* b);
 
 如果是，返回子串b在a中的起始指针，否则返回NULL。
+
+## test2: 无所编程下的线程安全
+
+使用原子操作
