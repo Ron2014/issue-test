@@ -1,13 +1,27 @@
-usages:
+# usages
 
-deault
+1. deault
+
 g++ test2.cc -o test
 
-use mutex
+2. use mutex
+
 g++ test2.cc -o test -DUSE_MUTEX
 
-use atomic
+3. use atomic
+
 g++ test2.cc -o test -DUSE_ATOMIC
 
-for linux
-add -lpthread
+for linux, need -lpthread
+
+# problems
+
+compile on MacOS:
+
+In file included from test2.cc:4:
+In file included from ./test2.h:8:
+./use_atomic.h:4:18: error: expected ';' after top level declarator
+std::atomic_int i{0};
+                 ^
+                 ;
+1 error generated.
