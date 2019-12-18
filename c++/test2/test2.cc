@@ -22,6 +22,5 @@ int main()
     chrono::duration<double> time_span = chrono::duration_cast<chrono::microseconds>(stop_time - start_time);
     std::cout << "共耗时：" << time_span.count() << " ms" << endl; // 耗时
 
-    system("pause");
     return 0;
 }
