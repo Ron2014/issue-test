@@ -43,6 +43,8 @@ char * strstr(char *a, char* b);
 
 使用原子操作
 
-## test3: win能编过的项目，Linux上居然error: ‘_strnicmp’ was not declared in this scope
+## test3: 总是找不到的_strnicmp
+
+win能编过的项目，Linux上居然error: ‘_strnicmp’ was not declared in this scope
 
 网上的说法是没有标准库文件，可是加上 #include <string.h> 依然没有效果
