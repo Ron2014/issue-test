@@ -39,6 +39,10 @@ char * strstr(char *a, char* b);
 
 如果是，返回子串b在a中的起始指针，否则返回NULL。
 
-## test2: 无所编程下的线程安全
+## test2: 无锁编程下的线程安全
 
 使用原子操作
+
+## test3: win能编过的项目，Linux上居然error: ‘_strnicmp’ was not declared in this scope
+
+网上的说法是没有标准库文件，可是加上 #include <string.h> 依然没有效果
