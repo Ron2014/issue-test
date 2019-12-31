@@ -160,7 +160,7 @@ $ cat log | awk '{a[$2]++}END{for(i in a){print i,a[i] | "sort -k 1"}}'
 
 可以看到，因为对毫秒级时间是敏感的，得到了均匀的随机结果。
 
-## summary
+## 程序启动的系统开销居然这么大！
 
 百万级测试我们总共用了两个方法
 
@@ -181,3 +181,28 @@ gcc main.c -o rand -DTEST_SHELL
 对于源码实现，在main中执行完100W循环，共耗时53毫秒（每次53纳秒）。而 shell 实现离不开每次程序启动时带来的系统开销，每次3毫秒，与源码实现相差56603倍。
 
 可见，对于不额外增加代码逻辑的小规模测试，shell 实现具有优势。如果想对测试频率提高一个数量级，建议还是源码实现好了。
+
+## 静态编译
+
+如何缩减 `程序启动的系统开销` 呢？首先想到的是静态编译（gcc编译默认是动态的）。
+
+```bash
+$ gcc -static main.c -o rands -DTEST_SHELL
+$ ls -al
+-rwxr-xr-x 1 root root   8512 Dec 31 10:00 rand*
+-rwxr-xr-x 1 root root 849872 Dec 31 10:00 rands*
+$ time ./rand 1 2 3 4 5 6 7 8
+result: 1
+
+real    0m0.003s
+user    0m0.000s
+sys     0m0.000s
+$ time ./rands 1 2 3 4 5 6 7 8
+result: 1
+
+real    0m0.008s
+user    0m0.000s
+sys     0m0.000s
+```
+
+执行一看，静态编译还是比动态编译要慢。这时候就想到要不要给可执行文件瘦身？《程序员的自我修养——链接、装载和库》中有提到相关的内容。
