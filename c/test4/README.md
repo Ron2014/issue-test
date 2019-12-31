@@ -1,12 +1,14 @@
-# usage
+# 对随机函数的百万级测试
+
+## usage
 
 rand name0 name1 name2 ...
 
-# output
+## output
 
 nameX
 
-# 100w test
+## 100w test
 
 写好程序后，对于 `rand() % count + 1` 这段代码还是比较心虚的，所以想弄个百万级测试，像这样写了 shell（先测100次）
 
@@ -34,7 +36,7 @@ $ cat log | awk '{a[$2]++}END{for(i in a){print i,a[i] | "sort -k 1"}}'
 
 从统计的次数来看，一共8个数字，概率比较均匀，算是测试通过了。
 
-# problem
+## problem
 
 那么回到之前的问题，shell 循环因为 time 的精度导致测试无效，那么 time 的精度能不能调高呢？到达微秒，甚至纳秒的级别。那还得看看我们程序指令的复杂度够不够消耗掉CPU的一纳秒时间。即两个问题：
 
@@ -157,3 +159,25 @@ $ cat log | awk '{a[$2]++}END{for(i in a){print i,a[i] | "sort -k 1"}}'
 ```
 
 可以看到，因为对毫秒级时间是敏感的，得到了均匀的随机结果。
+
+## summary
+
+百万级测试我们总共用了两个方法
+
+1. 源码实现
+
+```
+gcc main.c -o rand -DTEST_100W -DTEST_TIME
+```
+
+2. shell 实现
+
+```
+gcc main.c -o rand -DTEST_SHELL
+```
+
+哪种方式好呢？
+
+对于源码实现，在main中执行完100W循环，共耗时53毫秒（每次53纳秒）。而 shell 实现离不开每次程序启动时带来的系统开销，每次3毫秒，与源码实现相差56603倍。
+
+可见，对于不额外增加代码逻辑的小规模测试，shell 实现具有优势。如果想对测试频率提高一个数量级，建议还是源码实现好了。

@@ -48,7 +48,7 @@ add_definitions(-D_strnicmp=strncasecmp)
 endif()
 ```
 
-## 更正
+## more clear
 
 考虑到 C 和 UNIX 的血缘关系，UNIX 和 POSIX 标准的历史渊源。如今所说的“C标准库”的概念可能需要咬文嚼字以下。
 

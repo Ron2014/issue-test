@@ -49,7 +49,7 @@ win能编过的项目，Linux上居然error: ‘_strnicmp’ was not declared in
 
 网上的说法是没有标准库文件，可是加上 #include <string.h> 依然没有效果
 
-## test4: 百万级测试——随机和时间
+## test4: 对随机函数的百万级测试
 
 年会分房间，2人成房，多出一个人不得已执行该程序。
 
