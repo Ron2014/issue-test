@@ -46,7 +46,9 @@ atomic<int> i = 0;
 into 
 
 ```
-std::atomic_int i{0};
+// std::atomic_int i{0}; 
+// or
+std::atomic<int> i{0};
 ```
 
 ## error: expected ';' after top level declarator
