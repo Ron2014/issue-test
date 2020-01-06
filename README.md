@@ -72,3 +72,9 @@ win能编过的项目，Linux上居然error: ‘_strnicmp’ was not declared in
 如何对输出信息进行次数统计？
 
 ## test5: C++ lambda函数的实验
+
+## test6: 空指针赋值给 std::string 会发生闪退？
+
+因为 basic_string 包装 char * 时会调用 strlen(char *)
+
+## test7: 一个用智能指针创建的对象，用它的成员函数开启一个线程，在这个线程处理函数中，强制DEC智能指针
