@@ -77,4 +77,6 @@ win能编过的项目，Linux上居然error: ‘_strnicmp’ was not declared in
 
 因为 basic_string 包装 char * 时会调用 strlen(char *)
 
-## test7: 一个用智能指针创建的对象，用它的成员函数开启一个线程，在这个线程处理函数中，强制DEC智能指针
+## test7: 线程对象：我杀我自己，不行？
+
+线程分离/线程链接
