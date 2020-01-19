@@ -80,3 +80,7 @@ win能编过的项目，Linux上居然error: ‘_strnicmp’ was not declared in
 ## test7: 线程对象：我杀我自己，不行？
 
 线程分离/线程链接
+
+## test8: 修改指针指向的数据
+
+已知一个指针 q, 通过宏和q能改变其指向内存中的值么？
