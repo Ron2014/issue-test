@@ -139,14 +139,15 @@ void show(char *str, size_t len) {
 
     lua_assert(*(str+len)==0);
     char *c;
-    // while((c=strstr(str, "\n"))) {
-    //     *c = 'N';
-    // }
-    // while((c=strstr(str, "\r"))) {
-    //     *c = 'R';
-    // }
     while((c=strstr(str, "\014"))) {
-        *c = 'P';   // FF (NP form feed, new page) 换页键，若存在会导致无法刷新缓冲区，即 std::endl std::flush 失效。
+        /**
+         * FF (NP form feed, new page) 
+         * 换页键（ascii码0x0C，8进制\014）字符，会导致std流缓冲区失效
+         * 也就是说，所有的换行操作都会失败：std::endl std::flush std::fflush std::cout<<"\n\r"
+         * 只能用printf做换行
+        */
+        *c = 'P';
+
     }
     cout << len << ":" << str << endl;
 }
