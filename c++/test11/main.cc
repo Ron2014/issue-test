@@ -130,10 +130,10 @@ void show(char *str, size_t len) {
     for (i=0; i<len; i++) {
         if (i>0) {
             if (i%16==0) printf("\n");
-            else if (i%8==0) printf("-");
+            else if (i%8==0) printf("- ");
             else if (i%4==0) printf(" ");
         }
-        printf("%02x", ((str[i])&0xff));
+        printf("%02x ", ((str[i])&0xff));
     }
     printf("\n");
 
