@@ -19,5 +19,16 @@ int main(int argc, char *argv[]) {
     cout << "hello" << '\014' << " world" << '\n' << '\r'; fflush(stdout);
     // printf("\n");
 
+    cout << "hello\014 world" << endl;
+    // printf("\n");
+    cout << "hello\014 world" << '\n';
+    // printf("\n");
+    cout << "hello\014 world" << "\n\r";
+    // printf("\n");
+    cout << "hello\014 world" << '\n' << flush;
+    // printf("\n");
+    cout << "hello\014 world" << '\n' << '\r'; fflush(stdout);
+    // printf("\n");
+
     return 0;
 }
