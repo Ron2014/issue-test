@@ -4,10 +4,8 @@
 using namespace std;
 
 #ifdef _WIN32
-#include <windows.h>
 #include <io.h>
 #else
-#include <errno.h>
 #include <dirent.h>
 #endif
 
@@ -29,14 +27,14 @@ DeepSearchDirectory(const std::string &path, std::vector<std::string> &filelist,
                 continue;
 
             std::string dirname = path + "/" + file.name;
-            dirList.push_back(dirname);
+            dirlist.push_back(dirname);
             
-            if (!DeepSearchDirectory(dirname, fileList, dirList))
+            if (!DeepSearchDirectory(dirname, filelist, dirlist))
                 return false;
 
         } else {
             std::string filename = path + "/" + file.name;
-            fileList.push_back(filename);
+            filelist.push_back(filename);
         }
 
     } while( _findnext(handle, &file) == 0 );
@@ -90,12 +88,12 @@ int main(int argc, char *argv[]) {
             continue;
         }
 
-        cout << dirname << " files:" << endl;
+        cout << "====== files:" << endl;
         for(std::vector<std::string>::iterator it = filelist.begin(); it != filelist.end(); ++it){
             cout << *it << endl;
         }
 
-        cout << dirname << " directories:" << endl;
+        cout << "====== directories:" << endl;
         for(std::vector<std::string>::iterator it = dirlist.begin(); it != dirlist.end(); ++it){
             cout << *it << endl;
         }
