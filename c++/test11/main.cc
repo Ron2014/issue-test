@@ -138,6 +138,8 @@ void show(char *str, size_t len) {
     printf("\n");
 
     lua_assert(*(str+len)==0);
+
+#ifdef _WIN32
     char *c;
     while((c=strstr(str, "\014"))) {
         /**
@@ -147,8 +149,8 @@ void show(char *str, size_t len) {
          * 只能用printf做换行
         */
         *c = 'P';
-
     }
+#endif
     cout << len << ":" << str << endl;
 }
 
