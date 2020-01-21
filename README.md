@@ -80,3 +80,17 @@ win能编过的项目，Linux上居然error: ‘_strnicmp’ was not declared in
 ## test7: 线程对象：我杀我自己，不行？
 
 线程分离/线程链接
+
+## test9: 跨平台的文件、路径处理程序
+
+windows 下处理需要
+
+`#include <io.h>`
+
+linux 下处理需要
+
+`#include <dirent.h>`
+
+各自的系统调用API又不一样（遍历或者删除）
+
+编写一个满足跨平台需要的程序
