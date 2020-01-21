@@ -2,4 +2,6 @@
 !*.*
 !*/
 !.gitignore
+.vscode
 *.swp
+*.exe

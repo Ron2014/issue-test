@@ -81,7 +81,19 @@ win能编过的项目，Linux上居然error: ‘_strnicmp’ was not declared in
 
 线程分离/线程链接
 
-## test9: 跨平台的文件、路径处理程序
+## test8: 修改指针指向的数据
+
+已知一个指针 q, 通过宏和q能改变其指向内存中的值么？
+
+C语言传参可以传递引用么？
+
+指针变量的连续声明应该怎么写？
+
+## test9: 不设置 random seed 的后果
+
+没有指定 random seed，就会导致每次执行程序的 random 结果一样？
+
+## test10: 跨平台的文件、路径处理程序
 
 windows 下处理需要
 
