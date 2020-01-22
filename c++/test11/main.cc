@@ -12,7 +12,8 @@ enum OpMode {iABC, iABx, iAsBx, iAx};
 #define GETARG_sBx(x) ((x)&0x03)        // tail 2 bit
 #define SETARG_sBx(i,v) ((i)=((i)&(~0x03))+((v)&0x03))
 #define getOpMode(x) ((OpMode)(x))
-#define lua_assert(x) assert(x)
+// #define lua_assert(x) assert(x)
+#define lua_assert(x) (void(0))
 
 typedef struct nop_node{
     int pos;
@@ -97,7 +98,8 @@ void cook(char **p_str, size_t *p_len) {
     newpos = nlen;
 
     while(newpos--){
-        if (p && (p->pos >= newpos || pos == 0))  {
+        // if (p && (p->pos >= newpos || pos == 0))  {
+        if (p && p->pos >= newpos)  {
             (*p_str)[newpos] = p->code;
             p->pos = newpos;
             p = p->next;
@@ -154,22 +156,26 @@ void show(char *str, size_t len) {
     cout << len << ":" << str << endl;
 }
 
-int main(int argc, char *args[]) {
+int main(int argc, char *argv[]) {
     if (argc <= 1) {
         cout << "usage: proc <raw_string_array>" << endl;
         return 0;
     }
 
-    char *str_raw = args[1];
-    size_t len = strlen(str_raw);
-    char *str_meat = (char *)malloc(sizeof(char)*len);
-    strncpy(str_meat, str_raw, len);
+    int i;
+    for (i = 1; i < argc; i++) {
+        char *str_raw = argv[i];
+        size_t len = strlen(str_raw);
+        char *str_meat = (char *)malloc(sizeof(char)*len);
+        strncpy(str_meat, str_raw, len);
 
-    show(str_meat, len);
+        cout << "BEGIN ======" << endl;
 
-    COOK_MEAT(str_meat, len);
-    
-    show(str_meat, len);
+        show(str_meat, len);
 
+        COOK_MEAT(str_meat, len);
+        
+        show(str_meat, len);
+    }
     return 0;
 }
