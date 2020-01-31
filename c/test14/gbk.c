@@ -4,8 +4,8 @@
 
 int main(void) {
     // setlocale(LC_ALL, "zh_CN.UTF-8");
-    char str[] = "中文";
-    char eng[] = "hello world";
+    const char str[] = "中文"; // 中文
+    const char eng[] = "hello world";
     printf("1:%s %s\n", str, eng);
 	fprintf(stdout, "2:%s %s\n", str, eng);
 	fprintf(stderr, "3:%s %s\n", str, eng);
