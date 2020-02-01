@@ -3,7 +3,7 @@
 #include <locale.h>
 
 int main(void) {
-    // setlocale(LC_ALL, "zh_CN.UTF-8");
+    setlocale(LC_ALL, "zh_CN.gb2312");
     const char str[] = "中文"; // 中文
     const char eng[] = "hello world";
     printf("1:%s %s\n", str, eng);
