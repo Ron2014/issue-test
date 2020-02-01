@@ -219,11 +219,34 @@ utf8 文件中还嫌这个立即数太大了，分了两个mov指令来赋值。
 
 **我们在编辑器/终端上，肉眼看到的文本（源）文件，其实是经过一种类似于翻译器的编码器（encoder）处理后才显示出来的一个个字符。对于计算机内部、文件存储来讲，它们只认字节，就是二进制查看器输出的内容。对于编辑器、终端来讲，它们从文件中取出这些字节，经过 encoder 处理，才最终呈现出来。encoder 又能事先指定字符集（是 gbk 还是 utf8）。就像选择字典和查词算法一样，encoder 最终就能把字节表示的编号，转换成人类语言能够理解的字符图形（中文、日文或是其他）。我们在编辑器中输入的字符图形，也会通过 encoder 逆向逻辑变成对应字符集的编号，存储到文件中。**
 
-编辑器的 encoding 已经很常见了，前面也解释了原理。所以这个问题最终变成了：攻略Windows所有终端对字符编码的支持。
+编辑器的 encoding 已经很常见了，前面也解释了原理。所以这个问题最终变成了：攻略所有终端对字符编码的支持。
 
-1. 命令行提示符
+Windows 终端：
+
+1. CMD 命令行提示符
 2. PowerShell
-3. Windows 自带 Ubuntu
-4. Cygwin64 Terminal
-5. Msys2/MinGW
-6. docker
+3. Cygwin
+4. Msys2/MinGW
+5. Localhost/SecureCRT
+
+Linux 终端：
+
+1. VirtualBox-Ubuntu
+2. Windows 自带 Ubuntu
+3. [云服务器]ChicagoVPS-CentOS/SecureCRT
+4. [云服务器]AWS-Lightsail-Ubuntu/SecureCRT
+
+Windows 终端 + Docker/Ubuntu：
+
+1. CMD + docker
+2. PowerShell + docker
+3. Cygwin + docker
+4. Msys2/MinGW + docker
+5. Localhost/SecureCRT + docker
+
+Linux 终端 + Docker/Ubuntu：
+
+1. VirtualBox-Ubuntu + docker
+2. Windows 自带 Ubuntu + docker
+3. [云服务器]ChicagoVPS-CentOS/SecureCRT + docker
+4. [云服务器]AWS-Lightsail-Ubuntu/SecureCRT + docker
