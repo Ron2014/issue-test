@@ -1,9 +1,8 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <locale.h>
+// #include <locale.h>
 
 int main(void) {
-    setlocale(LC_ALL, "zh_CN.gb2312");
+    // setlocale(LC_ALL, "zh_CN.gbk");
     const char str[] = "中文"; // 中文
     const char eng[] = "hello world";
     printf("1:%s %s\n", str, eng);
