@@ -223,6 +223,7 @@ utf8 文件中还嫌这个立即数太大了，分了两个mov指令来赋值。
 
 1. 命令行提示符
 2. PowerShell
-3. Cgywin64 Terminal
-4. Msys2/MinGW
-5. docker
+3. Windows 自带 Ubuntu
+4. Cygwin64 Terminal
+5. Msys2/MinGW
+6. docker
