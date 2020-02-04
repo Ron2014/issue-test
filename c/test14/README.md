@@ -1,4 +1,4 @@
-# test14: 标准输出的字符编码
+﻿# test14: 标准输出的字符编码
 
 [例子来源](https://www.cnblogs.com/dejavu/archive/2012/09/16/2687586.html)
 
@@ -224,15 +224,190 @@ utf8 文件中还嫌这个立即数太大了，分了两个mov指令来赋值。
 Windows 终端：
 
 1. CMD 命令行提示符
+
+编译
+
+```
+mkdir build-win-cmd
+cd build-win-cmd
+cmake ..
+msbuild Encoding.sln
+```
+
+结果
+
+```bash
+E:\GitHub\issue-test\c\test14\build-win-cmd\Debug>chcp
+Active code page: 936
+E:\GitHub\issue-test\c\test14\build-win-cmd\Debug>gbk.exe
+1:中文 hello world
+2:中文 hello world
+3:中文 hello world
+E:\GitHub\issue-test\c\test14\build-win-cmd\Debug>utf8.exe
+1:涓枃 hello world
+2:涓枃 hello world
+3:涓枃 hello world
+
+E:\GitHub\issue-test\c\test14\build-win-cmd\Debug>chcp
+Active code page: 65001
+E:\GitHub\issue-test\c\test14\build-win-cmd\Debug>gbk.exe
+1: hello world
+2: hello world
+3: hello world
+E:\GitHub\issue-test\c\test14\build-win-cmd\Debug>utf8.exe
+1:中文 hello world
+2:中文 hello world
+3:中文 hello world
+```
+
 2. PowerShell
-3. Cygwin
+
+编译
+
+```bash
+mkdir build-win-powershell
+cd build-win-powershell
+cmake ..
+msbuild Encoding.sln
+```
+
+结果
+
+```bash
+PS E:\GitHub\issue-test\c\test14\build-win-powershell\Debug> chcp
+Active code page: 936
+PS E:\GitHub\issue-test\c\test14\build-win-powershell\Debug> .\gbk.exe
+1:中文 hello world
+2:中文 hello world
+3:中文 hello world
+PS E:\GitHub\issue-test\c\test14\build-win-powershell\Debug> .\utf8.exe
+1:涓枃 hello world
+2:涓枃 hello world
+3:涓枃 hello world
+
+PS E:\GitHub\issue-test\c\test14\build-win-powershell\Debug> chcp
+Active code page: 65001
+PS E:\GitHub\issue-test\c\test14\build-win-powershell\Debug> .\gbk.exe
+1: hello world
+2: hello world
+3: hello world
+PS E:\GitHub\issue-test\c\test14\build-win-powershell\Debug> .\utf8.exe
+1:中文 hello world
+2:中文 hello world
+3:中文 hello world
+```
+
+1. Cygwin
+
+编译
+
+```bash
+mkdir build-win-cygwin
+cd build-win-cygwin
+cmake ..
+msbuild.exe Encoding.sln
+```
+
+结果
+
+```bash
+[Options > Text > Local:zh_CN Character set:GBK]
+Ron@Ron-PC /cygdrive/e/GitHub/issue-test/c/test14/build-win-cygwin/Debug
+$ ./gbk.exe
+3:中文 hello world
+1:中文 hello world
+2:中文 hello world
+Ron@Ron-PC /cygdrive/e/GitHub/issue-test/c/test14/build-win-cygwin/Debug
+$ ./utf8.exe
+3:涓枃 hello world
+1:涓枃 hello world
+2:涓枃 hello world
+
+[Options > Text > Local:zh_CN Character set:UTF-8]
+Ron@Ron-PC /cygdrive/e/GitHub/issue-test/c/test14/build-win-cygwin/Debug
+$ ./gbk.exe
+3:▒▒▒▒ hello world
+1:▒▒▒▒ hello world
+2:▒▒▒▒ hello world
+Ron@Ron-PC /cygdrive/e/GitHub/issue-test/c/test14/build-win-cygwin/Debug
+$ ./utf8.exe
+3:中文 hello world
+1:中文 hello world
+2:中文 hello world
+```
+
 4. Msys2/MinGW
+
+编译
+
+```bash
+mkdir build-win-Msys
+cd build-win-Msys
+cmake ..
+make
+```
+
+结果
+
+```bash
+[Options > Text > Local:zh_CN Character set:GBK]
+Ron@Ron-PC MINGW64 /e/GitHub/issue-test/c/test14/build-win-Msys2
+$ ./gbk.exe
+3:中文 hello world
+1:中文 hello world
+2:中文 hello world
+Ron@Ron-PC MINGW64 /e/GitHub/issue-test/c/test14/build-win-Msys2
+$ ./utf8.exe
+3:涓枃 hello world
+1:涓枃 hello world
+2:涓枃 hello world
+
+[Options > Text > Local:zh_CN Character set:UTF-8]
+Ron@Ron-PC MINGW64 /e/GitHub/issue-test/c/test14/build-win-Msys2
+$ ./gbk.exe
+1:▒▒▒▒ hello world
+2:▒▒▒▒ hello world
+3:▒▒▒▒ hello world
+Ron@Ron-PC MINGW64 /e/GitHub/issue-test/c/test14/build-win-Msys2
+$ ./utf8.exe
+1:中文 hello world
+2:中文 hello world
+3:中文 hello world
+```
+
 5. Localhost/SecureCRT
+
+这个要到 Setting 里开启 OpenSSH 服务。
+
+Setting > App > App & features > Optional features > Add a feature > OpenSSH Server
 
 Linux 终端：
 
 1. VirtualBox-Ubuntu
 2. Windows 自带 Ubuntu
+
+编译
+
+```bash
+mkdir build-win-ubuntu
+cd build-win-ubuntu
+cmake ..
+make
+```
+
+结果( Ubuntu 锁死了 65001 的字符集 )
+
+```bash
+ron@Ron-PC:/mnt/e/GitHub/issue-test/c/test14/build-win-ubuntu$ ./gbk
+1: hello world
+2: hello world
+3: hello world
+ron@Ron-PC:/mnt/e/GitHub/issue-test/c/test14/build-win-ubuntu$ ./utf8
+1:中文 hello world
+2:中文 hello world
+3:中文 hello world
+```
+
 3. [云服务器]ChicagoVPS-CentOS/SecureCRT
 4. [云服务器]AWS-Lightsail-Ubuntu/SecureCRT
 

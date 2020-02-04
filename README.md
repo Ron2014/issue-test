@@ -138,3 +138,15 @@ liba.a 的 xxa.o 中有对 libb.a 定义的符号的引用（函数定义），�
 假设真的是 CMD.exe 不行，那还得寻找替代方案 Cgywin 还是 Msys2/MinGGW，还是用 SecureCRT 连 127.0.0.1 的 ssh ？
 
 ## test15: C语言对宽字符的处理
+
+## test16: 高频函数中，局部变量指针的频繁 malloc/free 
+
+假设存在一个字符串加密函数 foo，它会在运行时被频繁调用（高频函数）。
+
+foo 函数使用的加密算法是 openSSH 提供的 evp 库。使用 evp 的特点是，需要创建一个上下文对象 EVP_CIPHER_CTX 进行加密。
+
+对象（结构体）的创建，在高频函数中使用 malloc/free 并不是很好的选择。
+
+对于 foo 局部变量 EVP_CIPHER_CTX 指针，将其声明成 static 可以缓解这个问题么？
+
+请比较 有/没有 static 这两种做法，在运行时的表现。
