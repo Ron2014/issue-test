@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifdef INIT_ONCE
+#ifdef _INIT_ONCE
 #define DECL_CTX static
 #define RECYCLE_CTX(x)
 #else

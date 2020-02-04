@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 #include "part.h"
 
 #ifdef _WIN32
@@ -9,10 +10,15 @@
 #endif
 
 int main(int argc, char *argv[]) {
-    int i = 10;
+    clock_t t1, t2;
+    t1 = clock();
+
+    int i = 1000;
     while(i--) {
         foo();
-        sleep(1);
     }
+
+    t2 = clock();
+    printf("%.10f\n", (double)(t2-t1)/CLOCKS_PER_SEC);
     return 0;
 }
