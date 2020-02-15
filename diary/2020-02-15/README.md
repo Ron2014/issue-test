@@ -6,21 +6,21 @@
 
 ## 一道初中几何题带来的失落感
 
-![](https://github.com/Ron2014/issue-test/blob/master/diary/2020-02-15/images/WeChat%20Image_20200216002244.jpg)
+<img src="https://raw.githubusercontent.com/Ron2014/issue-test/master/diary/2020-02-15/images/WeChat%20Image_20200216002244.jpg" width=300 />
 
 
 偶然看到某个学霸朋友圈发了一个求三角形内角大小的初中题，研究了一下，花了很长时间没想明白怎么解，最后是通过[做图工具](https://www.geogebra.org/graphing)完成的。
 
 最后和小伙伴分享时，似乎并不是很买账。
 
-![](https://github.com/Ron2014/issue-test/blob/master/diary/2020-02-15/images/WeChat%20Image_20200216001608.jpg)
+<img src="https://raw.githubusercontent.com/Ron2014/issue-test/master/diary/2020-02-15/images/WeChat%20Image_20200216001608.jpg" width=300 />
 
 念叨着 `初中数学题` `我可能没学过数学` `角平分线定理`。
 
 
 ## 知道 wuhan2020 和 红客 的存在
 
-![](https://github.com/Ron2014/issue-test/blob/master/diary/2020-02-15/images/WeChat%20Image_20200216002216.jpg)
+<img src="https://raw.githubusercontent.com/Ron2014/issue-test/master/diary/2020-02-15/images/WeChat%20Image_20200216002216.jpg" width=300 />
 
 [wuhan2020](https://github.com/wuhan2020/wuhan2020) 是个资料库网站。从技术类型来讲，它应该和花瓣网、pinterest类似，属于**数据采集**的范畴。也因为这个项目，我知道了更加流行的办公通讯软件，其可定制性（QQ不太清楚，但是Wechat好像有相关的支持）可圈可点。也许我该研究一下如何向slack集成当前的redmine。
 
@@ -28,7 +28,7 @@
 
 ## 教育界的厌学情绪让人堪忧
 
-![](https://github.com/Ron2014/issue-test/blob/master/diary/2020-02-15/images/WeChat%20Image_20200216002233.jpg)
+<img src="https://raw.githubusercontent.com/Ron2014/issue-test/master/diary/2020-02-15/images/WeChat%20Image_20200216002233.jpg" width=300 />
 
 即便是这种内忧外患的状态，学生依然会为他们唯一的选择————远程教学APP`钉钉`打低分，盼着它下架。
 
