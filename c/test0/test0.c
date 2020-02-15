@@ -6,7 +6,7 @@ int main(int argc, char *argv[]) {
     char a[] = {
         0xFF, 0x8F, 0x7F, 0x3F, 0x1F, 0x0F, 0xF9, 0x79, 0xB9,
         'a',
-        '0', '9', '-1',
+        '0', '9', -1,
         '\0'
     };
     char *b = a;

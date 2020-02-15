@@ -1,0 +1,23 @@
+
+3Assembly/main.o:     file format elf64-x86-64
+
+Contents of section .text:
+ 0000 554889e5 4883ec20 897dec48 8975e048  UH..H.. .}.H.u.H
+ 0010 c745f804 000000b8 00000000 e8000000  .E..............
+ 0020 00b80000 0000c9c3                    ........        
+
+Disassembly of section .text:
+
+0000000000000000 <main>:
+   0:	55                   	push   %rbp
+   1:	48 89 e5             	mov    %rsp,%rbp
+   4:	48 83 ec 20          	sub    $0x20,%rsp
+   8:	89 7d ec             	mov    %edi,-0x14(%rbp)
+   b:	48 89 75 e0          	mov    %rsi,-0x20(%rbp)
+   f:	48 c7 45 f8 04 00 00 	movq   $0x4,-0x8(%rbp)
+  16:	00 
+  17:	b8 00 00 00 00       	mov    $0x0,%eax
+  1c:	e8 00 00 00 00       	callq  21 <main+0x21>
+  21:	b8 00 00 00 00       	mov    $0x0,%eax
+  26:	c9                   	leaveq 
+  27:	c3                   	retq   

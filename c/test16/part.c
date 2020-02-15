@@ -1,6 +1,7 @@
 #include "part.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #ifdef _INIT_ONCE
 #define DECL_CTX static
@@ -29,6 +30,6 @@ void foo() {
         abort();
     }
 
-    printf("do foo once!\n");
+    printf("%ld do foo once!\n", clock());
     RECYCLE_CTX(ctx);
 }
