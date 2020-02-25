@@ -168,3 +168,76 @@ foo 函数使用的加密算法是 openSSH 提供的 evp 库。使用 evp 的特
 1. inline 的正确语法(无warning)？
 2. inline 的类型？
 3. inline 在编译的哪个步骤起作用的？
+
+## test20：size_t 的内存大小 & lua 长字符串的长度上限
+
+lua 有一处代码
+
+```c
+/* get string length from 'TString *s' */
+#define tsslen(s)	((s)->tt == LUA_TSHRSTR ? (s)->shrlen : (s)->u.lnglen)
+```
+
+shrlen/lnglen 出自 lobject.h
+
+```c
+/*
+** Header for string value; string bytes follow the end of this structure
+** (aligned according to 'UTString'; see next).
+*/
+typedef struct TString {
+  CommonHeader;
+  lu_byte extra;  /* reserved words for short strings; "has hash" for longs */
+  lu_byte shrlen;  /* length for short strings */
+  unsigned int hash;
+  union {
+    size_t lnglen;  /* length for long strings */
+    struct TString *hnext;  /* linked list for hash table */
+  } u;
+} TString;
+```
+
+前者 lu_byte 是1个无符号字节，后者 size_t 是C运行时库定义的数据类型（很可能不是1个字节）。
+
+```c
+/* chars used as small naturals (so that 'char' is reserved for characters) */
+typedef unsigned char lu_byte;
+```
+
+对于 tsslen(s) 的调用，应该注意什么呢？比如，有一处代码是这样
+
+```c
+static void DumpString (const TString *s, DumpState *D) {
+  if (s == NULL)
+    DumpByte(0, D);
+  else {
+    size_t size = tsslen(s) + 1;  /* include trailing '\0' */
+    const char *str = getstr(s);
+    if (size < 0xFF)
+      DumpByte(cast_int(size), D);
+    else {
+      DumpByte(0xFF, D);
+      DumpVar(size, D);
+    }
+    DumpVector(str, size - 1, D);  /* no need to save '\0' */
+  }
+}
+```
+
+假设 size_t 是个 **8字节无符号整型**，那么 lua 的 `long strings` 的长度，真的需要这么大的空间来存储么？
+
+lua 支持的短字符串长度为40（不包含结束符\0），那么长字符串的长度上限为多少？
+
+PS. 短字符串长度上限 LUAI_MAXSHORTLEN 定义见 llimits.h
+
+```c
+/*
+** Maximum length for short strings, that is, strings that are
+** internalized. (Cannot be smaller than reserved words or tags for
+** metamethods, as these strings must be internalized;
+** #("function") = 8, #("__newindex") = 10.)
+*/
+#if !defined(LUAI_MAXSHORTLEN)
+#define LUAI_MAXSHORTLEN	40
+#endif
+```
