@@ -1,4 +1,4 @@
-# test20：size_t 的内存大小 & lua 长字符串的长度上限
+# test20：size_t/long 的内存大小 & lua 长字符串的长度上限
 
 数据类型的内存大小，通常和操作系统/编译器有关。
 
@@ -256,9 +256,288 @@ lua 的长字符串数据的长度上限，就是【lua_Integer 能表示的最�
 
 这么大的数据量，对于搜索、排序、I/O 读写、网络传输都会造成不少的压力。
 
-当然，好处很明显：lua 提供给我们一个几乎无限制的字符串创建接口。
+当然，好处很明显：**lua 的字符串长度几乎是无限制的**。
 
 但是，我不禁要问：
 
 1. 到底什么情况下才需要这么长的字符串呢？
 2. 在需求明确的情况下，能否人为指定一个长字符串的长度上限。比如 uint32_t 最大可到42亿，uint16_t 最大可到 65536，感觉都已经够用了。
+3. 像这种报警，真的有条件触发么？若真要创建出800万TB的字符串，报警之前内存就爆炸了吧。
+
+```c
+l_noret luaM_toobig (lua_State *L) {
+  luaG_runerror(L, "memory allocation error: block too big");
+}
+```
+
+面对这样的疑问，我将 MAX_SIZE 写成了固定的、较小的数值，这样其占用的内存长度不会在不同的编译环境、执行环境中飘忽不定，也更符合人类行为规范。
+
+```c
+/**
+ * size for [long string] [udata] [buffer of llex]
+ * don't need too big: 8 bytes to save? no
+ * 4,294,967,295 is enough: 4G, maximum of [unsigned int]/[uint32_t]
+*/
+#define MAX_SIZE UINT_MAX
+```
+
+统计了一下 MAX_SIZE 使用的地方，无一例外每一处都加了溢出判断，所以这个值应该理解为：判断内存溢出的标准。
+
+```c
+  if (luaZ_sizebuffer(b) >= MAX_SIZE/2)
+    lexerror(ls, "lexical element too long", 0);
+    
+  if (l >= (MAX_SIZE - sizeof(TString))/sizeof(char))
+    luaM_toobig(L);
+
+  if (s > MAX_SIZE - sizeof(Udata))
+    luaM_toobig(L);
+
+  size_t l = vslen(top - n - 1);
+  if (l >= (MAX_SIZE/sizeof(char)) - tl)
+    luaG_runerror(L, "string length overflow");
+```
+
+既然每一处都有 error/warning 那就放心改
+
+## int/short/long 的长度
+
+上例中用 `size_t 的长度` 这个问题引出了数据类型 `long unsigned int`，那我们就着重说说 long。
+
+在这个例子中，`long unsigned int` 表示 【长的、无符号、整型】，既然都无符号了，也就是两部分 long 和 unsigned int。
+
+`unsigned int` 好说，它和有符号整型 `int` 的内存长度一致，在16位机上是2字节，32位/64位机上是4字节。
+
+加上 long 修饰之后，其长度就会随编译环境变化了。同理，`long int` 也是不固定的，而且 `long int` 又可以简写成 `long`。
+
+所以，源码中 long 的含义也不同。前者 long 成了修饰符，后者 long 表示一个数据类型 `long int`。同理，`short` 也是。
+
+### 针对各平台编译
+
+#### 构建，生成 CMakeCache.txt
+
+为了搞清楚各个平台的 int/short/long 的长度，我们需要用到 cmake 工具构建
+
+1. Windows 32-bit: `cmake -G "Visual Studio 15 2017" ..`
+2. Windows 64-bit: `cmake -G "Visual Studio 15 2017 Win64" ..`
+3. Linux 32-bit: `cmake -DCMAKE_C_FLAGS=-m32 ..`
+4. Linux 64-bit: `cmake -DCMAKE_C_FLAGS=-m64 ..`
+5. MacOS 32-bit: `cmake -DCMAKE_OSX_ARCHITECTURES=i386 ..`
+6. MAcOS 64-bit: `cmake -DCMAKE_OSX_ARCHITECTURES=x86_64 ..`
+7. MAcOS 96-bit: `cmake -DCMAKE_OSX_ARCHITECTURES=x86_64;i386 ..` :)
+
+PS. 64位Linux支持32位编译需要提前安装4个工具
+
+```bash
+sudo apt install -y build-essential module-assistant gcc-multilib g++-multilib
+```
+
+#### 编译，生成可执行程序
+
+对于编译指令，可以选用跨平台的 cmake 命令 `cmake --build path/to/CMakeCache.txt --config [Debug|Release]`
+
+也可以选择平台自己的工具
+
+1. Windows: MSBuild SizeTest.sln
+2. Linux/UNIX: make
+
+PS. MSBuild.exe 存放在 `path\to\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin`，请事先将这个目录加入 %PATH%
+
+#### 参考
+
+[How to build x86 and/or x64 on Windows from command line with CMAKE?](https://stackoverflow.com/questions/28350214/how-to-build-x86-and-or-x64-on-windows-from-command-line-with-cmake)
+[指定CMAKE构建32位/64位版本的程序](https://www.cnblogs.com/youxiao/p/3240220.html)
+[GCC 64位程序的makefile条件编译心得——32位版与64位版、debug版与release版（兼容MinGW、TDM-GCC）](https://www.cnblogs.com/zyl910/archive/2012/08/14/gcc64_make.html)
+[在64位linux下编译32位程序](https://blog.csdn.net/XscKernel/article/details/38045783)
+
+#### 结果
+
+数据类型 | win 32 | win 64 | linux 32 | linux 64 | MacOS 32 | MacOS 64
+--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|
+pointer |4|8|4|8
+int |4|4|4|4
+short |2|2|2|2
+long |4|4|4|8
+long long |8|8|8|8
+long unsigned int |4|4|4|8
+size_t |4|8|4|8
+const char* in macro |7, len 6|7, len 6|7, len 6|7, len 6
+
+如果我们将**可移植性定义为：数据类型放在任何平台，其内存长度都不变。**
+
+在上面的结果中，仅有三个数据类型满足：
+
+1. int
+2. short
+3. long long
+
+### 应用场景埋下的巨坑：lua 字节码文件头
+
+所有的文件都有文件头，用来交给操作系统进行文件辨识，从而采取与之关联的工具来处理这个文件。这是我们在GUI环境下双击某个文件图标后，在我们看不到的地方进行的工作；是Windows系统菜单项文件`打开方式`的由来；是Linux下ELF可执行程序装载运行时库，最终创建进程执行的理论依据。
+
+无一例外，对于lua字节码文件与lua解释器，也是这样的工作机制：
+
+1. lua对文件进行解析，luaL_loadfile -> ... -> f_parser
+2. 判断它是文本文件还是字节码文件：对于后者，文件的第一个字节是否是LUA_SIGNATURE[0]
+3. 对于两种情况分别采取不同的策略进行处理
+   1. 文本处理 luaY_parser：`递归下降法（可以理解成是回溯法的变种）`实现的【文件扫描 + 语法解析（字符串->opcode） + 虚拟机执行】
+   2. 字节码文件处理 luaU_undump：文件头检查 + 加载字节生成opcode + 虚拟机执行
+
+**我们花了这么长时间研究的 long 的巨坑就存在这个文件头里。**
+
+文件头编码 ldump.c
+
+```c
+static void DumpHeader (DumpState *D) {
+  DumpLiteral(LUA_SIGNATURE, D);
+  DumpByte(LUAC_VERSION, D);
+  DumpByte(LUAC_FORMAT, D);
+  DumpLiteral(LUAC_DATA, D);
+  DumpByte(sizeof(int), D);
+  DumpByte(sizeof(size_t), D);
+  DumpByte(sizeof(Instruction), D);
+  DumpByte(sizeof(lua_Integer), D);
+  DumpByte(sizeof(lua_Number), D);
+  DumpInteger(LUAC_INT, D);
+  DumpNumber(LUAC_NUM, D);
+}
+```
+
+文件头解码 lundump.c
+
+```c
+static void checkHeader (LoadState *S) {
+  checkliteral(S, LUA_SIGNATURE + 1, "not a");  /* 1st char already checked */
+  if (LoadByte(S) != LUAC_VERSION)
+    error(S, "version mismatch in");
+  if (LoadByte(S) != LUAC_FORMAT)
+    error(S, "format mismatch in");
+  checkliteral(S, LUAC_DATA, "corrupted");
+  checksize(S, int);
+  checksize(S, size_t);
+  checksize(S, Instruction);
+  checksize(S, lua_Integer);
+  checksize(S, lua_Number);
+  if (LoadInteger(S) != LUAC_INT)
+    error(S, "endianness mismatch in");
+  if (LoadNumber(S) != LUAC_NUM)
+    error(S, "float format mismatch in");
+}
+```
+
+问题就出在和平台相关的数据类型 size_t 放入了字节码文件头 `DumpByte(sizeof(size_t), D);`，这就埋下了隐患：**某平台编译得到的lua字节码，放到另一个平台就无法通过check，执行不了。这种情况会发生在什么时候呢？答：lua的热更新。**
+
+lua 为什么要检查 size_t 的长度呢？肯定这个变量在编解码有用武之地。
+
+```c
+static void DumpString (const TString *s, DumpState *D) {
+  if (s == NULL)
+    DumpByte(0, D);
+  else {
+    size_t size = tsslen(s) + 1;  /* include trailing '\0' */
+    const char *str = getstr(s);
+    if (size < 0xFF)
+      DumpByte(cast_int(size), D);
+    else {
+      DumpByte(0xFF, D);
+      DumpVar(size, D);
+    }
+    DumpVector(str, size - 1, D);  /* no need to save '\0' */
+  }
+}
+
+static TString *LoadString (LoadState *S) {
+  size_t size = LoadByte(S);
+  if (size == 0xFF)
+    LoadVar(S, size);
+  if (size == 0)
+    return NULL;
+  else if (--size <= LUAI_MAXSHORTLEN) {  /* short string? */
+    char buff[LUAI_MAXSHORTLEN];
+    LoadVector(S, buff, size);
+    return luaS_newlstr(S->L, buff, size);
+  }
+  else {  /* long string */
+    TString *ts = luaS_createlngstrobj(S->L, size);
+    LoadVector(S, getstr(ts), size);  /* load directly in final place */
+    return ts;
+  }
+}
+```
+
+对于长字符串的编解码，会事先存储表示其长度的变量，再存入字符串内容。所以注意上面的 DumpVar/LoadVar
+
+```c
+DumpVar(size, D);
+LoadVar(S, size);
+```
+
+**存入/读取的字节长度是按照变量 size 的类型来的，size 的类型是 size_t。对于跨平台来讲，会有内存错位的风险。**
+
+### clock_t 留下的巨坑
+
+对于加密，通常会涉及到 random 计算，random 会需要设置 seed，seed 为了保证每次随机的序列不一样，会取和时间有关的值。所以 clock_t 就被用上了。对于对称加密来说，这个 clock_t 肯定要保存下来，交给解密程序读取。当加密程序、解密程序分别运行在不同平台，坑就来了。因为 clock_t 的定义是(time.h)
+
+```c
+typedef long clock_t;
+```
+
+Linux 的定义，通常都喜欢饶弯（写这些代码的程序员真的不是在玩漂移？）
+
+```bash
+bits/types/clock_t.h:typedef __clock_t clock_t;
+bits/types.h:__STD_TYPE __CLOCK_T_TYPE __clock_t; /* Type of CPU usage counts.  */
+bits/typesizes.h:#define __CLOCK_T_TYPE           __SYSCALL_SLONG_TYPE
+bits/typesizes.h:
+#if defined __x86_64__ && defined __ILP32__
+# define __SYSCALL_SLONG_TYPE   __SQUAD_TYPE
+#else
+# define __SYSCALL_SLONG_TYPE   __SLONGWORD_TYPE
+#endif
+bits/types.h:#define __SLONGWORD_TYPE     long int
+bits/types.h:
+#if __WORDSIZE == 32
+# define __SQUAD_TYPE           __quad_t
+#elif __WORDSIZE == 64
+# define __SQUAD_TYPE                long int
+#endif
+bits/types.h:
+#if __WORDSIZE == 64
+typedef long int __quad_t;
+#else
+__extension__ typedef long long int __quad_t;
+#endif
+```
+
+定义链是这样的，也就是说32位下 clock_t = long int，64位下 clock_t 还是 = long int
+
+```
+clock_t -> __clock_t -> __CLOCK_T_TYPE -> __SYSCALL_SLONG_TYPE -> 
+  32:__SLONGWORD_TYPE -> long int
+  64:__SQUAD_TYPE -> 
+    32: __quad_t -> 
+      32: long long int
+      64: long int
+    64: long int
+```
+
+两个平台都是 long int， 这就让操作系统有了很多发挥空间了 :)
+
+
+## 长整型的真正含义
+
+`long` 或者说 `long int` 真是个让人捉摸不透的存在。如果我们把数据类型比作人，把数据类型的内存长度比作这些人丁丁的长度。
+
+long 可以指着 short 比2根手指说“你只有这么长”，对着int比4根手指说“你是这个”，对着long long要用两只手来比划。
+
+然后 short/int/long long 凑过来一起问：那你有多长？
+
+long 自信一笑：反正不比 int 短，也不比 long long 长，总之，可长可短。
+
+short/int/long long：艹。
+
+事到如今，对于 long/长整型 的真正含义，我真的开始怀疑所有的教科书是不是都印错了，long 和 long int 之间很容易产生歧义，所有的博客、专家的解释都太无力。
+
+我所感受到的，“长”整型的真正含义是————
+
+**要花较“长”的时间、几番周折才能确定其在对应平台的内存长度的整型；也是要花较“长”时间才能彻底解决跨平台移植问题的整型”。**

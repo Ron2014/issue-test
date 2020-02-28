@@ -169,7 +169,7 @@ foo 函数使用的加密算法是 openSSH 提供的 evp 库。使用 evp 的特
 2. inline 的类型？
 3. inline 在编译的哪个步骤起作用的？
 
-## test20：size_t 的内存大小 & lua 长字符串的长度上限
+## test20：size_t/long 的内存大小 & lua 长字符串的长度上限
 
 lua 有一处代码
 
