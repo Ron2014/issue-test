@@ -1,0 +1,4 @@
+[submodule "lua/test22"]
+	path = lua/test22
+	url = https://github.com/Ron2014/Circular-Require-in-lua
+	branch = master

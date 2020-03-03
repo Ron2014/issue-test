@@ -241,3 +241,9 @@ PS. 短字符串长度上限 LUAI_MAXSHORTLEN 定义见 llimits.h
 #define LUAI_MAXSHORTLEN	40
 #endif
 ```
+
+## test21: 不同的数据类型作为布尔表达式的表现 (所有语言)
+
+Different data type converted to BOOL expression: C C++ Lua Python
+
+## test22: TypeScriptToLua如何支持循环引用
