@@ -249,3 +249,5 @@ Different data type converted to BOOL expression: C C++ Lua Python
 ## test22: TypeScriptToLua如何支持循环引用
 
 ## test23: C++ 线程池的实现
+
+## test24：简易的技能、buff系统
