@@ -46,8 +46,8 @@ function Terrain:loadGridInfo(cid)
 end
 
 function Terrain:getType(point)
-    local i = point:x() / LINE_WIDTH
-    local j = point:y() / LINE_LENGTH
+    local i = math.floor(point:x() / LINE_WIDTH)
+    local j = math.floor(point:y() / LINE_LENGTH)
 
     if self.__gridInfo[i] and self.__gridInfo[i][j] then
         return self.__gridInfo[i][j]:type()

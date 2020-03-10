@@ -2,7 +2,7 @@
 -- 关卡/战场
 
 local SkillMgr = require "skillMgr"
-local BuffMgr = require "buffMgr"
+local SkillNodeMgr = require "skillNodeMgr"
 local Terrain = require "terrain"
 
 local class = require 'middleclass.middleclass'
@@ -14,7 +14,7 @@ function Battle:initialize(id, cid)
     self.__entity = {}
     self.__terrain = Terrain:new()
     self.__skillMgr = SkillMgr:new()
-    self.__buffMgr = BuffMgr:new()
+    self.__skillNodeMgr = SkillNodeMgr:new()
 
     self:initTerrain()
 end
@@ -30,7 +30,7 @@ end
 -- frame update
 function Battle:update()
     self.__skillMgr:update()
-    self.__buffMgr:update()
+    self.__skillNodeMgr:update()
 end
 
 function Battle:addEntity(entity)
@@ -45,6 +45,9 @@ function Battle:removeEntity(id)
     -- 从 self.__skillMgr 移除与 entity 相关的技能
     
     self.__entity[id] = nil
+end
+
+function Battle:destroy()
 end
 
 return Battle

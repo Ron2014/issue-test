@@ -13,7 +13,7 @@ function BattleMgr:initialize(count)
     self.__count = 0
     self.__instances = {}
 
-    for i in 1,count do
+    for cid in 1,count do
         self:createOne(cid)
     end
 end

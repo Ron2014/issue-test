@@ -14,7 +14,9 @@ local SKILL_STATE = {
 function Skill:initialize(id, cid)
     self.__id = id
     self.__cid = cid
-    self.__state = SKILL_STATE.DEFAULT
+
+    self.__state = SKILL_STATE.DEFAULT      -- 状态
+    self.__state_tm = 0                     -- 状态开始时间
 end
 
 function Skill:id()
