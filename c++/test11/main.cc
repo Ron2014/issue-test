@@ -98,6 +98,7 @@ void cook(char **p_str, size_t *p_len) {
     newpos = nlen;
 
     while(newpos--){
+        // take this code and won't get assert failure
         // if (p && (p->pos >= newpos || pos == 0))  {
         if (p && p->pos >= newpos)  {
             (*p_str)[newpos] = p->code;
