@@ -251,3 +251,5 @@ Different data type converted to BOOL expression: C C++ Lua Python
 ## test23: C++ 线程池的实现
 
 ## test24：简易的技能、buff系统
+
+## test25: C++ 的 struct 中定义一个 const 数组，如何初始化？
