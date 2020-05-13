@@ -353,7 +353,7 @@ PS. MSBuild.exe 存放在 `path\to\Microsoft Visual Studio\2017\Community\MSBuil
 #### 结果
 
 数据类型 | win 32 | win 64 | linux 32 | linux 64 | MacOS 32 | MacOS 64
---|--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|
+--|--|--|--|--|--|--
 pointer |4|8|4|8
 int |4|4|4|4
 short |2|2|2|2
