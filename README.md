@@ -248,8 +248,27 @@ Different data type converted to BOOL expression: C C++ Lua Python
 
 ## test22: TypeScriptToLua如何支持循环引用
 
+循环引用（Circular Require, Circular dependencies），在lua环境中，指的是这样的情况：
+
+有两个lua文件A和B，文件A中require了B，文件B中require了A，这样在lua解析时会陷入死循环。
+
+很容易想到，在文件require（也就是加载）的时候，应该有三种状态。
+1. 未加载
+2. 加载中
+3. 加载完成
+
+但是lua原生的代码 package.loaded 仅支持1、3两种状态。
+1. LOADED[name] = nil
+3. LOADED[name] = loader返回值 / true
+
+如何保证 require 顺序 A->B->A->... 时不陷入死循环.
+
 ## test23: C++ 线程池的实现
 
 ## test24：简易的技能、buff系统
 
 ## test25: C++ 的 struct 中定义一个 const 数组，如何初始化？
+
+## test26: CPU的1/2/3级缓存的概念, 对程序设计有什么影响? 和ECS架构, 内存池有什么联系?
+
+## test27: 粘包问题
