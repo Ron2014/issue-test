@@ -6,7 +6,7 @@
 from socket import *
  
 client = socket(AF_INET,SOCK_STREAM)
-client.connect(("192.168.0.143",6666))  # 填入Server端公网IP
+client.connect(("192.168.0.143",13612))  # 填入Server端公网IP
  
 while 1:
     cmd = input("请输入命令>>>:").strip()

@@ -7,7 +7,7 @@ import subprocess
 from socket import *
  
 server = socket(AF_INET, SOCK_STREAM)
-server.bind(("192.168.0.143",6666))  # 填入私网IP
+server.bind(("0.0.0.0",10001))  # 填入私网IP
 server.listen(5)
  
 while 1:  # 链接循环
