@@ -274,3 +274,5 @@ Different data type converted to BOOL expression: C C++ Lua Python
 ## test27: 粘包问题
 
 ## test28: shell sort 希尔排序
+
+本质上是【分组的插入排序】
