@@ -272,3 +272,9 @@ Different data type converted to BOOL expression: C C++ Lua Python
 ## test26: CPU的1/2/3级缓存的概念, 对程序设计有什么影响? 和ECS架构, 内存池有什么联系?
 
 ## test27: 粘包问题
+
+## test28: shell sort 希尔排序
+
+本质上是【分组的插入排序】
+
+## test29: 除0零一定crash么?
