@@ -278,3 +278,9 @@ Different data type converted to BOOL expression: C C++ Lua Python
 本质上是【分组的插入排序】
 
 ## test29: 除0零一定crash么?
+
+## test30: cflow 使用
+
+## test31: lua热更新
+
+## test32: clock
