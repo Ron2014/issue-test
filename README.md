@@ -278,3 +278,7 @@ Different data type converted to BOOL expression: C C++ Lua Python
 本质上是【分组的插入排序】
 
 ## test29: 除0零一定crash么?
+
+## test30: 打印数组的全排列
+
+## test31: 判断一个table是不是数组
