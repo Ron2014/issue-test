@@ -279,6 +279,12 @@ Different data type converted to BOOL expression: C C++ Lua Python
 
 ## test29: 除0零一定crash么?
 
-## test30: 打印数组的全排列
+## test30: cflow 使用
 
-## test31: 判断一个table是不是数组
+## test31: lua热更新
+
+## test32: clock
+
+## test33: 打印数组的全排列
+
+## test34: 判断一个table是不是数组

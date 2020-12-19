@@ -3,7 +3,7 @@ int main() {
 	double a = 0.0;
 	double b = 0.0;
 	double c = 1.0;
-	double d = b / a;	// -nan, so is a/a
+	double d = b / a;	// -nan, so is a/a, 'Not a Number'
 	double e = c / a;	// inf
 
 	int f = 0;
