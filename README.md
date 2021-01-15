@@ -288,3 +288,5 @@ Different data type converted to BOOL expression: C C++ Lua Python
 ## test33: 打印数组的全排列
 
 ## test34: 判断一个table是不是数组
+
+## test35: 共享内存
