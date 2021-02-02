@@ -4,17 +4,15 @@
 
 using namespace std;
 
-#define VIRTUAL_COPIES 1048576 //物理节点至虚拟节点的复制倍数
-// #define VIRTUAL_COPIES 32 //物理节点至虚拟节点的复制倍数
+// #define VIRTUAL_COPIES 1048576 //物理节点至虚拟节点的复制倍数
+#define VIRTUAL_COPIES 16384 //物理节点至虚拟节点的复制倍数
 
 class CConsistentHashing {
 private:
-    static set<string> physicalNodes;
     map<long, string> virtualNodes;
+    map<int, string> nodesRecords;
 
 public:
-    CConsistentHashing();
-
     static long FNVHash(string key);
     static long FNVHash(const unsigned char* p, size_t size);
 

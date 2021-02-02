@@ -1,19 +1,23 @@
-/**
- * @author: https://kefeng.wang
- * @date: 2018-08-10 11:08
- **/
 #include <iostream>
+#include <unistd.h>
 #include "ConsistentHashing.h"
+
 using namespace std;
 
 int main(int argc, char** args)
 {
     CConsistentHashing* ch = new CConsistentHashing();
 
-    cout << "------" << endl;
+    cout << "------ init for " << VIRTUAL_COPIES << " times " << endl;
+
+    ch->addPhysicalNode("192.168.1.101");
+    ch->addPhysicalNode("192.168.1.102");
+    ch->addPhysicalNode("192.168.1.103");
+    ch->addPhysicalNode("192.168.1.104");
 
     // 初始情况
-    ch->dumpObjectNodeMap("init info", 0, 65536);
+    ch->dumpObjectNodeMap("origin info1", 0, 65536);
+    ch->dumpObjectNodeMap("origin info2", 0, 65536);
 
     // 删除物理节点
     ch->removePhysicalNode("192.168.1.103");
@@ -23,5 +27,6 @@ int main(int argc, char** args)
     ch->addPhysicalNode("192.168.1.108");
     ch->dumpObjectNodeMap("after add", 0, 65536);
 
+    sleep(1000);
     return 0;
 }

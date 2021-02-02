@@ -2,13 +2,6 @@
 #include <sstream>
 #include <math.h>
 
-set<string> CConsistentHashing::physicalNodes {
-    "193.168.1.101",
-    "192.168.1.102",
-    "192.168.1.103",
-    "192.168.1.104",
-};
-
 long
 CConsistentHashing::FNVHash(string key)
 {
@@ -30,14 +23,6 @@ CConsistentHashing::FNVHash(string key)
         hash = abs(hash);
     }
     return hash;
-}
-
-CConsistentHashing::CConsistentHashing() {
-    for (string nodeIp : physicalNodes)
-    {
-        addPhysicalNode(nodeIp);
-        cout << "====== init node " <<  nodeIp << endl;
-    }
 }
 
 void
@@ -83,17 +68,23 @@ CConsistentHashing::dumpObjectNodeMap(string label, int objectMin, int objectMax
 {
     // Í³¼Æ
     map<string, int> objectNodeMap; // IP => COUNT
+    int changes = 0;
+
     for (int object = objectMin; object <= objectMax; ++object)
     {
         string nodeIp = getObjectNode(to_string(object));
         // cout << nodeIp << endl;
         int count = objectNodeMap[nodeIp];
         objectNodeMap[nodeIp] = count + 1;
+        
+        string oldIp = nodesRecords[object];
+        if (nodeIp != oldIp) changes++;
+        nodesRecords[object] = nodeIp;
     }
 
     // ´òÓ¡
     double totalCount = objectMax - objectMin + 1;
-    cout << "======== " << label << " ========" << endl;
+    cout << "====== " << label << " : " << changes << " changed" << endl;
 
     for (map<string, int>::iterator entry = objectNodeMap.begin(); entry != objectNodeMap.end(); entry ++)
     {
