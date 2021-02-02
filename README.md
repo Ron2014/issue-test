@@ -290,3 +290,7 @@ Different data type converted to BOOL expression: C C++ Lua Python
 ## test34: 判断一个table是不是数组
 
 ## test35: 共享内存
+
+## test36: twisted 案例
+
+## test37: 一致性哈希
