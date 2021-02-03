@@ -279,6 +279,10 @@ Different data type converted to BOOL expression: C C++ Lua Python
 
 ## test29: 除0零一定crash么?
 
+Lua 除 0 就不会 crash，关键是连 traceback 都没有，有返回值，属于正常操作。
+
+但是深入一查，你会发现这不是 Lua 特有的机制，C语言老早就支持了。
+
 ## test30: cflow 使用
 
 ## test31: lua热更新
