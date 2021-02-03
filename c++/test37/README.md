@@ -99,7 +99,7 @@ IP=192.168.1.106: RATE=13.9402%
 IP=192.168.1.107: RATE=15.1197%
 ```
 
-加了 sleep 方便用来查看内存使用情况
+加了 getchar() 方便用来查看内存使用情况
 
 ```bash
 ps -ef | grep \.\/main | grep -v grep | awk '{print $2}' | xargs -I args sh -c 'cat /proc/args/status'

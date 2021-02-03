@@ -1,5 +1,4 @@
 #include <iostream>
-#include <unistd.h>
 #include "ConsistentHashing.h"
 
 using namespace std;
@@ -33,6 +32,8 @@ int main(int argc, char** args)
     ch->addPhysicalNode("192.168.1.107");
     ch->dumpObjectNodeMap("add 192.168.1.107", 0, 65536);
 
-    sleep(1000);
+    cout << "press any key to exit" << endl;
+    getchar();
+
     return 0;
 }
