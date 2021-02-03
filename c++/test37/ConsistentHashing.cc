@@ -105,4 +105,6 @@ CConsistentHashing::dumpObjectNodeMap(string label, int objectMin, int objectMax
         double percent = (100.0 * entry->second / totalCount);
         cout << "IP=" << entry->first << ": RATE=" << percent << "%" << endl;
     }
+
+    cout << endl;
 }

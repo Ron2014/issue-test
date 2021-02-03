@@ -7,7 +7,7 @@ int main(int argc, char** args)
 {
     CConsistentHashing* ch = new CConsistentHashing();
 
-    cout << "------ init for " << VIRTUAL_COPIES << " times " << endl;
+    cout << "------ init for " << VIRTUAL_COPIES << " times " << endl << endl;
 
     ch->addPhysicalNode("192.168.1.101");
     ch->addPhysicalNode("192.168.1.102");
