@@ -68,8 +68,10 @@ CConsistentHashing::dumpObjectNodeMap(string label, int objectMin, int objectMax
 {
     // Í³¼Æ
     map<string, int> objectNodeMap; // IP => COUNT
+    map<string, int> objectChanges;
     int changes = 0;
 
+    stringstream ss;
     for (int object = objectMin; object <= objectMax; ++object)
     {
         string nodeIp = getObjectNode(to_string(object));
@@ -78,13 +80,25 @@ CConsistentHashing::dumpObjectNodeMap(string label, int objectMin, int objectMax
         objectNodeMap[nodeIp] = count + 1;
         
         string oldIp = nodesRecords[object];
-        if (nodeIp != oldIp) changes++;
+        if (nodeIp != oldIp)
+        {
+            changes++;
+            ss.str("");
+            ss << oldIp << " -> " << nodeIp;
+            count = objectChanges[ss.str()];
+            objectChanges[ss.str()] = count + 1;
+        }
         nodesRecords[object] = nodeIp;
     }
 
     // ´òÓ¡
     double totalCount = objectMax - objectMin + 1;
     cout << "====== " << label << " : " << changes << " changed" << endl;
+
+    for (map<string, int>::iterator entry = objectChanges.begin(); entry != objectChanges.end(); entry ++)
+    {
+        cout << entry->first << ": " << entry->second << endl;
+    }
 
     for (map<string, int>::iterator entry = objectNodeMap.begin(); entry != objectNodeMap.end(); entry ++)
     {

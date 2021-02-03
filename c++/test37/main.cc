@@ -14,6 +14,8 @@ int main(int argc, char** args)
     ch->addPhysicalNode("192.168.1.102");
     ch->addPhysicalNode("192.168.1.103");
     ch->addPhysicalNode("192.168.1.104");
+    ch->addPhysicalNode("192.168.1.105");
+    ch->addPhysicalNode("192.168.1.106");
 
     // 初始情况
     ch->dumpObjectNodeMap("origin info1", 0, 65536);
@@ -21,11 +23,15 @@ int main(int argc, char** args)
 
     // 删除物理节点
     ch->removePhysicalNode("192.168.1.103");
-    ch->dumpObjectNodeMap("after remove", 0, 65536);
+    ch->dumpObjectNodeMap("remove 192.168.1.103", 0, 65536);
 
     // 添加物理节点
-    ch->addPhysicalNode("192.168.1.108");
-    ch->dumpObjectNodeMap("after add", 0, 65536);
+    ch->addPhysicalNode("192.168.1.103");
+    ch->dumpObjectNodeMap("add 192.168.1.103", 0, 65536);
+
+    // 添加物理节点
+    ch->addPhysicalNode("192.168.1.107");
+    ch->dumpObjectNodeMap("add 192.168.1.107", 0, 65536);
 
     sleep(1000);
     return 0;
