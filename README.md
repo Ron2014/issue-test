@@ -291,6 +291,14 @@ Different data type converted to BOOL expression: C C++ Lua Python
 
 ## test35: 共享内存
 
+实现两个进程A和B：
+
+A 创建共享内存，从共享内存中不断读取数据，充当 server 监听端口。
+
+B 获取共享内存，不断向共享内存中写入数据，充当 client 发送请求
+
 ## test36: twisted 案例
 
 ## test37: 一致性哈希
+
+如何实现：在分布式系统中，对于同一来源的请求，总是唯一的转发至指定的服务中处理。
