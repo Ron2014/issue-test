@@ -14,7 +14,6 @@ private:
 
 public:
     static long FNVHash(string key);
-    static long FNVHash(const unsigned char* p, size_t size);
 
     void addPhysicalNode(string nodeIp);
     void removePhysicalNode(string nodeIp);
