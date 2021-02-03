@@ -34,12 +34,6 @@ C -> D
 
 node 代表服务，object 代表发送请求的用户1D。
 
-加了 sleep 方便用来查看内存使用情况
-
-```bash
-ps -ef | grep \.\/main | grep -v grep | awk '{print $2}' | xargs -I args sh -c 'cat /proc/args/status'
-```
-
 输出信息如下
 
 ```bash
@@ -101,4 +95,61 @@ IP=192.168.1.104: RATE=14.2668%
 IP=192.168.1.105: RATE=14.9564%
 IP=192.168.1.106: RATE=13.9402%
 IP=192.168.1.107: RATE=15.1197%
+```
+
+加了 sleep 方便用来查看内存使用情况
+
+```bash
+ps -ef | grep \.\/main | grep -v grep | awk '{print $2}' | xargs -I args sh -c 'cat /proc/args/status'
+```
+
+```bash
+Name:   main
+Umask:  0022
+State:  S (sleeping)
+Tgid:   2129
+Ngid:   0
+Pid:    2129
+PPid:   1999
+TracerPid:      0
+Uid:    0       0       0       0
+Gid:    0       0       0       0
+FDSize: 256
+Groups: 0
+VmPeak:    23940 kB
+VmSize:    23940 kB
+VmLck:         0 kB
+VmPin:         0 kB
+VmHWM:     12420 kB
+VmRSS:     12420 kB
+RssAnon:           11276 kB
+RssFile:            1144 kB
+RssShmem:              0 kB
+VmData:    11496 kB
+VmStk:       132 kB
+VmExe:        48 kB
+VmLib:      3988 kB
+VmPTE:        68 kB
+VmSwap:        0 kB
+Threads:        1
+SigQ:   1/14990
+SigPnd: 0000000000000000
+ShdPnd: 0000000000000000
+SigBlk: 0000000000000000
+SigIgn: 0000000000000000
+SigCgt: 0000000000000000
+CapInh: 0000000000000000
+CapPrm: 0000001fffffffff
+CapEff: 0000001fffffffff
+CapBnd: 0000001fffffffff
+CapAmb: 0000000000000000
+NoNewPrivs:     0
+Seccomp:        0
+Speculation_Store_Bypass:       thread vulnerable
+Cpus_allowed:   ffffffff,ffffffff,ffffffff,ffffffff
+Cpus_allowed_list:      0-127
+Mems_allowed:   00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001
+Mems_allowed_list:      0
+voluntary_ctxt_switches:        2
+nonvoluntary_ctxt_switches:     8
 ```
