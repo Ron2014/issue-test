@@ -153,3 +153,11 @@ Mems_allowed_list:      0
 voluntary_ctxt_switches:        2
 nonvoluntary_ctxt_switches:     8
 ```
+
+## 编译
+
+使用了一些 C++ 特性，编译的时候请指定版本号
+
+```bash
+g++ -o main main.cc ConsistentHashing.cc --std=c++11
+```
