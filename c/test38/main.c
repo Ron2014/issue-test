@@ -28,7 +28,7 @@ test(struct schedule *S) {
 
 	printf("main start\n");
 
-	while (coroutine_status(S,co1) && coroutine_status(S,co2)) {		// 协程都结束时停止
+	while (coroutine_status(S,co1) && coroutine_status(S,co2)) {		// 任何协程结束时停止
 		// 执行协程逻辑，即 foo 函数
 		coroutine_resume(S,co1);
 		coroutine_resume(S,co2);
