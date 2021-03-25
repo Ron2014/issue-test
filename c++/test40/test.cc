@@ -4,7 +4,6 @@
  * @FilePath: \issue-test\c++\test40\test.cc
  */
 #include <iostream>
-#include <windef.h>
 using namespace std;
 
 int main(int argc, char *argv[])
