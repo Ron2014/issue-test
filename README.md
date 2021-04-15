@@ -1,3 +1,8 @@
+<!--
+ * @Author: Ron
+ * @LastEditors: Ron
+ * @FilePath: \issue-test\README.md
+-->
 # 测试用例集锦
 
 ## test0: isdigit 的参数好奇怪
@@ -341,3 +346,5 @@ B 获取共享内存，不断向共享内存中写入数据，充当 client 发�
 ## test42: C 语言标准IO缓冲区
 
 ## test43: C++ 使用 redis 数据存储
+
+## test44: C 语言中 strlen 返回的长度包不包括 \0，它和 sizeof 的区别
