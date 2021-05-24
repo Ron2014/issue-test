@@ -58,5 +58,17 @@ struct BattleRecordDetailsShm
         this->MVP = stBattleRecord.MVP;
         this->HeroId = stBattleRecord.HeroId;
         this->Name = stBattleRecord.Name;
+        return true;
     }
+};
+
+struct UnCompressMsgHeader
+{
+    int BobyLen;       //消息体长度
+    bool CompressFlag; //实际数据是否有被压缩
+};
+
+struct CompressMsgHeader : public UnCompressMsgHeader
+{
+    int UnZipLen; //实际数据压缩前的大小
 };

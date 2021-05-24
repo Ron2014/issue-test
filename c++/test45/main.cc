@@ -10,6 +10,9 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
+    printf("size of UnCompressMsgHeader = %zd\n", sizeof(UnCompressMsgHeader));
+    printf("size of CompressMsgHeader = %zd\n", sizeof(CompressMsgHeader));
+
     BattleRecordDetailsShm arr[150];
     BattleRecordDetails data;
     BattleRecordDetailsShm tmp = {0};
