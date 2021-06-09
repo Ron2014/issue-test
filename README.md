@@ -364,3 +364,5 @@ B 获取共享内存，不断向共享内存中写入数据，充当 client 发�
 ## test51: C++对象的析构
 
 ## test52: vector.erase end 会崩么
+
+## test53: 枚举支持模板和重载么
