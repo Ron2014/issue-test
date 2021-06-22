@@ -2,7 +2,7 @@
  * @Date: 2021-06-09 10:06:38
  * @Author: Ron
  * @LastEditors: Ron
- * @LastEditTime: 2021-06-09 11:29:58
+ * @LastEditTime: 2021-06-10 15:15:03
  * @FilePath: \issue-test\c++\test53\main.cc
  * @Description: 
  */
@@ -30,10 +30,18 @@ using namespace Protocol;
 
 struct MyStruct
 {
-    UINT32 Value1;
-    UINT8 Value2;
-    EnumList Value3;
-    String Value4;
+    UINT32 Value1;          // 4
+    UINT8 Value2;           // 1 -> 4
+    EnumList Value3;        // 1 -> 4
+    String Value4;          // 4
+};
+
+struct MyStruct2
+{
+    virtual void foo1() = 0;
+    virtual void foo2() = 0;
+    virtual void foo3() = 0;
+    virtual void foo4() = 0;
 };
 
 class Stream
@@ -81,11 +89,13 @@ public:
     Field(V1 T::*field)
         : mField(field)
     {
+        printf("Registed %p\n", field);
     }
 
     Field(V1 T::**field)
         : mField(field)
     {
+        printf("Registed %p\n", field);
     }
 
     bool WriteToStream(const void* obj, Stream &stream)
@@ -100,7 +110,7 @@ private:
 };
 
 template <typename T>
-class ObjectSerializer
+class ObjSerializer
 {
 public:
     void Reg() {}
@@ -126,15 +136,66 @@ private:
     std::vector<Field_Base*> mFields;
 };
 
+class Method
+{
+public:
+    Method()
+    {
+    }
+
+    template <typename T>
+    Method(void(T:: *method) ())
+    {
+        printf("Method %p\n", method);
+    }
+};
+
+template <typename T>
+class RPCSerializer
+{
+public:
+    void Reg() {}
+    template <typename V, typename... Args>
+    void Reg(V v, Args &&...args)
+    {
+        mMethods.push_back(new Method(v)); 
+        Reg(args...);
+    }
+
+    bool CallMethod(void* obj, int index)
+    {
+         if (index < mMethods.size())
+         {
+             // call mMethods[index]
+             return true;
+         }
+         return false;
+    }
+private:
+    std::vector<Method*> mMethods;
+};
+
+
 int main(int argc, char *argv[])
 {
-    ObjectSerializer<MyStruct> serializer;
+    ObjSerializer<MyStruct> serializer;
     serializer.Reg(
         &MyStruct::Value1,
         &MyStruct::Value2,
         &MyStruct::Value3,
         &MyStruct::Value4
     );
+
+    RPCSerializer<MyStruct2> serializer2;
+    serializer2.Reg(
+        &MyStruct2::foo1,
+        &MyStruct2::foo2,
+        &MyStruct2::foo3,
+        &MyStruct2::foo4
+    );
+
+    printf("sizeof MyStruct=%zd\n", sizeof(MyStruct));
+    printf("sizeof MyStruct2=%zd\n", sizeof(MyStruct2));
 
     struct MyStruct obj;
     Stream stream;
