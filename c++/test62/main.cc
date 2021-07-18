@@ -2,7 +2,7 @@
  * @Date: 2021-07-17 20:55:30
  * @Author: Ron
  * @LastEditors: Ron
- * @LastEditTime: 2021-07-18 00:53:03
+ * @LastEditTime: 2021-07-18 14:28:33
  * @FilePath: \issue-test\c++\test62\main.cc
  * @Description: 
  */
@@ -33,19 +33,14 @@ struct A3
 };
 
 ///////////////////////////// 协议合并在一起，用这个类来注册协议
+
+/**
+ * @brief 
+ * 继承之后不定义虚函数
+ * 那么自己的虚函数表是空的
+ */
 struct B1: A1, A2, A3
 {
-    virtual void fooA0() = 0;
-    virtual void fooA1() = 0;
-    virtual void fooA2() = 0;
-    virtual void fooA3() = 0;
-    virtual void fooA4() = 0;
-    virtual void fooA5() = 0;
-    virtual void fooA6() = 0;
-    virtual void fooA7() = 0;
-    virtual void fooA8() = 0;
-
-    virtual void fooB1() = 0;
 };
 
 struct B2: A1, A2, A3
@@ -136,9 +131,11 @@ struct C2: B2, D1<C2, B2>, G1
     virtual void fooA8 () { printf("this is C2::A8\n"); }
 };
 
+// 协议的函数地址
 typedef void (B1::*B1Method)();
 typedef void (B2::*B2Method)();
 
+// 调用函数
 template<typename T>
 void Invoke(T *obj, void (T::*method)())
 {
@@ -148,12 +145,16 @@ void Invoke(T *obj, void (T::*method)())
 template<typename T>
 void Invoke1(void *obj, void (T::*method)())
 {
-    Invoke<T>((T *)obj, method);
+    (((T *)obj)->*method)();
 }
 
 int main(int argc, char *argv[])
 {
     C1 *pC1 = new C1;
+    C2 *pC2 = new C2;
+
+    cout << "--------------------1" << endl;
+
     (pC1->*(B1Method)(&B1::fooA0))();
     (pC1->*(B1Method)(&B1::fooA1))();
     (pC1->*(B1Method)(&B1::fooA2))();
@@ -163,11 +164,9 @@ int main(int argc, char *argv[])
     (pC1->*(B1Method)(&B1::fooA6))();
     (pC1->*(B1Method)(&B1::fooA7))();
     (pC1->*(B1Method)(&B1::fooA8))();
-    (pC1->*(B1Method)(&B1::fooB1))();
 
-    cout << "--------------------" << endl;
+    cout << "--------------------1" << endl;
 
-    C2 *pC2 = new C2;
     (pC2->*(B2Method)(&B2::fooA0))();
     (pC2->*(B2Method)(&B2::fooA1))();
     (pC2->*(B2Method)(&B2::fooA2))();
@@ -178,7 +177,7 @@ int main(int argc, char *argv[])
     (pC2->*(B2Method)(&B2::fooA7))();
     (pC2->*(B2Method)(&B2::fooA8))();
 
-    cout << "--------------------" << endl;
+    cout << "--------------------2" << endl;
     
     Invoke<B1>(pC1, &B1::fooA0);
     Invoke<B1>(pC1, &B1::fooA1);
@@ -189,9 +188,31 @@ int main(int argc, char *argv[])
     Invoke<B1>(pC1, &B1::fooA6);
     Invoke<B1>(pC1, &B1::fooA7);
     Invoke<B1>(pC1, &B1::fooA8);
-    Invoke<B1>(pC1, &B1::fooB1);
 
-    cout << "--------------------" << endl;
+    cout << "--------------------2" << endl;
+    
+    Invoke<B2>(pC2, &B2::fooA0);
+    Invoke<B2>(pC2, &B2::fooA1);
+    Invoke<B2>(pC2, &B2::fooA2);
+    Invoke<B2>(pC2, &B2::fooA3);
+    Invoke<B2>(pC2, &B2::fooA4);
+    Invoke<B2>(pC2, &B2::fooA5);
+    Invoke<B2>(pC2, &B2::fooA6);
+    Invoke<B2>(pC2, &B2::fooA7);
+    Invoke<B2>(pC2, &B2::fooA8);
+
+    cout << "--------------------3" << endl;
+
+    Invoke1(pC1, &B1::fooA0);
+    Invoke1(pC1, &B1::fooA1);
+    Invoke1(pC1, &B1::fooA2);
+    Invoke1(pC1, &B1::fooA3);
+    Invoke1(pC1, &B1::fooA4);
+    Invoke1(pC1, &B1::fooA5);
+    Invoke1(pC1, &B1::fooA6);
+    Invoke1(pC1, &B1::fooA7);
+
+    cout << "--------------------3" << endl;
 
     Invoke1(pC2, &B2::fooA0);
     Invoke1(pC2, &B2::fooA1);
