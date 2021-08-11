@@ -1,10 +1,17 @@
+/*
+ * @Date: 2021-01-15 15:56:23
+ * @Author: Ron
+ * @LastEditors: Ron
+ * @LastEditTime: 2021-08-11 10:27:12
+ * @Description: 
+ */
 
 //comm.c
 #include"comm.h"
  
 static int CommShm(int size, int flags)
 {
-	key_t key = ftok(PATHNAME, PROJ_ID);		// ½«Ò»¸öÒÑ´æÔÚµÄÂ·¾¶ÃûºÍÒ»¸öÕûÊı±êÊ¶·û×ª»»³ÉÒ»¸ökey_tÖµ£¬³ÆÎªIPC¼üÖµ key
+	key_t key = ftok(PATHNAME, PROJ_ID);		// å°†ä¸€ä¸ªå·²å­˜åœ¨çš„è·¯å¾„åå’Œä¸€ä¸ªæ•´æ•°æ ‡è¯†ç¬¦è½¬æ¢æˆä¸€ä¸ªkey_tå€¼ï¼Œç§°ä¸ºIPCé”®å€¼ key
 	if(key < 0)
 	{
 		perror("ftok");
@@ -12,7 +19,7 @@ static int CommShm(int size, int flags)
 	}
 
 	int shmid = 0;
-	if((shmid = shmget(key, size, flags)) < 0)	// ¸øsemget¡¢msgget¡¢shmget´«ÈëkeyÖµ£¬ËüÃÇ·µ»ØµÄ¶¼ÊÇÏàÓ¦µÄIPC¶ÔÏó±êÊ¶·û shmid
+	if((shmid = shmget(key, size, flags)) < 0)	// ç»™semgetã€msggetã€shmgetä¼ å…¥keyå€¼ï¼Œå®ƒä»¬è¿”å›çš„éƒ½æ˜¯ç›¸åº”çš„IPCå¯¹è±¡æ ‡è¯†ç¬¦ shmid
 	{
 		perror("shmget");
 		return -2;
@@ -36,11 +43,11 @@ int DestroyShm(int shmid)
 IPC_CREAT	// Create key if key does not exist.
 IPC_EXCL   	// Fail if key exists.
 
-Ö¸¶¨keyÎªIPC_PRIVATE²Ù×÷ÏµÍ³±£Ö¤´´½¨Ò»¸öÎ¨Ò»µÄIPC¶ÔÏó¡£
-ÉèÖÃflag²ÎÊıµÄIPC_CREATÎ»µ«²»ÉèÖÃËüµÄIPC_EXCLÎ»Ê±£¬Èç¹ûËùÖ¸¶¨key¼üµÄIPC¶ÔÏó²»´æÔÚ£¬ÄÇ¾ÍÊÇ´´½¨Ò»¸öĞÂµÄ¶ÔÏó£»·ñÔò·µ»Ø¸Ã¶ÔÏó¡£
-Í¬Ê±ÉèÖÃflagµÄIPC_CREATºÍIPC_EXCLÎ»Ê±£¬Èç¹ûËùÖ¸¶¨key¼üµÄIPC¶ÔÏó²»´æÔÚ£¬ÄÇ¾Í´´½¨Ò»¸öĞÂµÄ¶ÔÏó£»·ñÔò·µ»ØÒ»¸öEEXIST´íÎó£¬ÒòÎª¸Ã¶ÔÏóÒÑ´æÔÚ¡£
+æŒ‡å®škeyä¸ºIPC_PRIVATEæ“ä½œç³»ç»Ÿä¿è¯åˆ›å»ºä¸€ä¸ªå”¯ä¸€çš„IPCå¯¹è±¡ã€‚
+è®¾ç½®flagå‚æ•°çš„IPC_CREATä½ä½†ä¸è®¾ç½®å®ƒçš„IPC_EXCLä½æ—¶ï¼Œå¦‚æœæ‰€æŒ‡å®škeyé”®çš„IPCå¯¹è±¡ä¸å­˜åœ¨ï¼Œé‚£å°±æ˜¯åˆ›å»ºä¸€ä¸ªæ–°çš„å¯¹è±¡ï¼›å¦åˆ™è¿”å›è¯¥å¯¹è±¡ã€‚
+åŒæ—¶è®¾ç½®flagçš„IPC_CREATå’ŒIPC_EXCLä½æ—¶ï¼Œå¦‚æœæ‰€æŒ‡å®škeyé”®çš„IPCå¯¹è±¡ä¸å­˜åœ¨ï¼Œé‚£å°±åˆ›å»ºä¸€ä¸ªæ–°çš„å¯¹è±¡ï¼›å¦åˆ™è¿”å›ä¸€ä¸ªEEXISTé”™è¯¯ï¼Œå› ä¸ºè¯¥å¯¹è±¡å·²å­˜åœ¨ã€‚
 
-0666 ´Ë IPC µÄ¶ÁĞ´È¨ÏŞ
+0666 æ­¤ IPC çš„è¯»å†™æƒé™
 
 */
 

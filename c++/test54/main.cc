@@ -2,7 +2,7 @@
  * @Date: 2021-06-22 17:04:44
  * @Author: Ron
  * @LastEditors: Ron
- * @LastEditTime: 2021-06-22 17:40:55
+ * @LastEditTime: 2021-07-19 21:23:14
  * @FilePath: \issue-test\c++\test54\main.cc
  * @Description: 
  */
@@ -56,7 +56,10 @@ enum ENUM5
 };
 
 #define SHOW_ALL_ENUMS(idx) \
-	printf("Enum%d: %d %d %d %d %d\n", idx, ENUM##idx::ENUM##idx##_V1, ENUM##idx::ENUM##idx##_V2, ENUM##idx::ENUM##idx##_V3, ENUM##idx::ENUM##idx##_V4, ENUM##idx::ENUM##idx##_V5)
+	printf("Enum%d(%zd): %d %d %d %d %d\n", idx, sizeof(enum ENUM##idx), ENUM##idx::ENUM##idx##_V1, ENUM##idx::ENUM##idx##_V2, ENUM##idx::ENUM##idx##_V3, ENUM##idx::ENUM##idx##_V4, ENUM##idx::ENUM##idx##_V5)
+
+// #define IS_UNSIGNED(a) (a >= 0 && ~a >= 0)
+#define IS_UNSIGNED(a) ((a |= (0x1 << (sizeof(a)*8 - 1))) > 0 ? 1 : 0)
 
 int main(int argc, char *argv[])
 {
@@ -65,5 +68,30 @@ int main(int argc, char *argv[])
 	SHOW_ALL_ENUMS(3);
 	SHOW_ALL_ENUMS(4);
 	SHOW_ALL_ENUMS(5);
+
+	enum ENUM1 val;
+	int *ival = (int *)(&val);
+	*ival = 0x1 << (sizeof(int)*8 - 1);
+	printf("%d\n", *ival);
+	
+	int temp0 = 100;
+	if (val > temp0)
+	{
+		printf("default unsigned\n");
+	}
+	else
+	{
+		printf("default signed\n");
+	}
+	
+	unsigned int temp1 = 100;
+	if (val > temp1)
+	{
+		printf("default unsigned\n");
+	}
+	else
+	{
+		printf("default signed\n");
+	}
 	return 0;
 }

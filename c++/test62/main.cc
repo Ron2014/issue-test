@@ -2,7 +2,7 @@
  * @Date: 2021-07-17 20:55:30
  * @Author: Ron
  * @LastEditors: Ron
- * @LastEditTime: 2021-07-18 14:28:33
+ * @LastEditTime: 2021-07-19 11:09:18
  * @FilePath: \issue-test\c++\test62\main.cc
  * @Description: 
  */
@@ -45,15 +45,15 @@ struct B1: A1, A2, A3
 
 struct B2: A1, A2, A3
 {
-    virtual void fooA0() = 0;
-    virtual void fooA1() = 0;
-    virtual void fooA2() = 0;
-    virtual void fooA3() = 0;
-    virtual void fooA4() = 0;
-    virtual void fooA5() = 0;
-    virtual void fooA6() = 0;
-    virtual void fooA7() = 0;
-    virtual void fooA8() = 0;
+    virtual void fooA0() {};
+    virtual void fooA1() {};
+    virtual void fooA2() {};
+    virtual void fooA3() {};
+    virtual void fooA4() {};
+    virtual void fooA5() {};
+    virtual void fooA6() {};
+    virtual void fooA7() {};
+    virtual void fooA8() {};
 };
 
 ///////////////////////////// 其他的类
@@ -148,6 +148,42 @@ void Invoke1(void *obj, void (T::*method)())
     (((T *)obj)->*method)();
 }
 
+class MethodProxy
+{
+private:
+    typedef void (MethodProxy::*METHOD)();
+    typedef bool (__cdecl *FUNC)(void*, METHOD);
+
+    METHOD _RealMethod;
+    FUNC _Invoker;
+
+public:
+    MethodProxy()
+        : _Invoker(0)
+        , _RealMethod(0)
+    {
+    }
+
+    template <typename T>
+    MethodProxy(void(T:: *method) ())
+    {
+        _RealMethod = (METHOD)method;
+        _Invoker = (FUNC)MethodInvoker<T>;
+    }
+
+private:
+    template <typename T>
+    static bool __cdecl MethodInvoker(void *obj, METHOD method)
+    {
+        typedef void (T::*MethodType)();
+        ((T *)obj->*(MethodType)method)();
+        return true;
+    }
+
+public:
+    bool operator()(void* obj)	{ return _Invoker(obj, _RealMethod); }
+};
+
 int main(int argc, char *argv[])
 {
     C1 *pC1 = new C1;
@@ -222,6 +258,13 @@ int main(int argc, char *argv[])
     Invoke1(pC2, &B2::fooA5);
     Invoke1(pC2, &B2::fooA6);
     Invoke1(pC2, &B2::fooA7);
+
+    cout << "--------------------4" << endl;
+
+    MethodProxy m1(&B1::fooA0);
+    MethodProxy m2(&B2::fooA0);
+    m1(pC1);
+    m2(pC2);
 
     delete pC1;
     delete pC2;
