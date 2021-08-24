@@ -2,7 +2,7 @@
  * @Date: 2021-08-10 14:38:25
  * @Author: Ron
  * @LastEditors: Ron
- * @LastEditTime: 2021-08-11 22:20:29
+ * @LastEditTime: 2021-08-14 20:39:53
  * @Description: 
  */
 #ifdef __NO_PADDING__
@@ -47,6 +47,10 @@ struct Db_Serialize_Header
 
 int main(int argc, char *argv[])
 {
+    std::string str0 = "abc";
+    std::string str1 = "abc";
+    cout << (str0 == str1) << endl;
+
     cout << sizeof(normal) << endl;
     cout << sizeof(special) << endl;
     cout << sizeof(Db_Serialize_Header) << endl;

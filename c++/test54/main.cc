@@ -2,7 +2,7 @@
  * @Date: 2021-06-22 17:04:44
  * @Author: Ron
  * @LastEditors: Ron
- * @LastEditTime: 2021-07-19 21:23:14
+ * @LastEditTime: 2021-08-20 16:27:16
  * @FilePath: \issue-test\c++\test54\main.cc
  * @Description: 
  */
@@ -19,7 +19,7 @@ enum ENUM1
 	ENUM1_V5,
 };
 
-enum ENUM2
+enum ENUM2 : unsigned int
 {
 	ENUM2_V1 = 0,
 	ENUM2_V2,
@@ -28,7 +28,7 @@ enum ENUM2
 	ENUM2_V5,
 };
 
-enum ENUM3
+enum ENUM3 : int
 {
 	ENUM3_V1 = 0,
 	ENUM3_V2,
@@ -69,29 +69,41 @@ int main(int argc, char *argv[])
 	SHOW_ALL_ENUMS(4);
 	SHOW_ALL_ENUMS(5);
 
-	enum ENUM1 val;
-	int *ival = (int *)(&val);
-	*ival = 0x1 << (sizeof(int)*8 - 1);
-	printf("%d\n", *ival);
+	int ival = 0x1 << (sizeof(int)*8 - 1);
+	printf("%d\n", ival);
 	
-	int temp0 = 100;
-	if (val > temp0)
-	{
-		printf("default unsigned\n");
-	}
-	else
+	enum ENUM1 val = (enum ENUM1)ival;
+	enum ENUM1 temp0 = ENUM1_V1;
+	if (val < temp0)
 	{
 		printf("default signed\n");
 	}
-	
-	unsigned int temp1 = 100;
-	if (val > temp1)
+	else
 	{
 		printf("default unsigned\n");
 	}
+
+	enum ENUM2 temp1 = (enum ENUM2)ival;	// unsigned	= -xxxx
+	enum ENUM3 temp2 = ENUM3_V1;			// signed	= 0
+	if (temp1 > temp2)
+	{
+		printf("changed to unsigned\n");
+	}
 	else
 	{
-		printf("default signed\n");
+		printf("changed to signed\n");
 	}
+
+	enum ENUM2 temp3 = ENUM2_V1;			// unsigned	= 0
+	enum ENUM3 temp4 = (enum ENUM3)ival;	// signed	= -xxxx
+	if (temp3 > temp4)
+	{
+		printf("changed to signed\n");
+	}
+	else
+	{
+		printf("changed to unsigned\n");
+	}
+	
 	return 0;
 }
