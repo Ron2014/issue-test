@@ -407,3 +407,9 @@ B 获取共享内存，不断向共享内存中写入数据，充当 client 发�
 ## test68: 自增符号和括号的优先级
 
 ## test69: 指针取值
+
+## test70：数组的拷贝
+
+## test71: memset(&szData, 0, sizeof(szData)) 会报错么？
+
+## test72: 所有键盘按键值
