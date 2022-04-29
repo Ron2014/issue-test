@@ -413,3 +413,5 @@ B 获取共享内存，不断向共享内存中写入数据，充当 client 发�
 ## test71: memset(&szData, 0, sizeof(szData)) 会报错么？
 
 ## test72: 所有键盘按键值
+
+## test73: 整数拆分问题
