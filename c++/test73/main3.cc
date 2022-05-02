@@ -115,11 +115,6 @@ void calcResult(uint32_t m, uint32_t n)
             }
         }
     }
-
-    uint32_t *arr = new uint32_t[n];
-    memset(arr, 0, sizeof(uint32_t)*n);
-    printResult(arr, n, &mapResult[getKey(m, n)]);
-    delete [] arr;
 }
 
 int main(int argc, char *argv[])
@@ -140,6 +135,11 @@ int main(int argc, char *argv[])
     }
 
     calcResult(m, n);
+
+    uint32_t *arr = new uint32_t[n];
+    memset(arr, 0, sizeof(uint32_t)*n);
+    printResult(arr, n, &mapResult[getKey(m, n)]);
+    delete [] arr;
 
 #ifdef SHOW_MAP
     for (auto &it: mapResult)
