@@ -3,7 +3,7 @@
 #include <map>
 using namespace std;
 
-#define SHOW_MAP
+// #define SHOW_MAP
 #define SIZE_BUF 1024
 char buffer[SIZE_BUF];
 
@@ -60,14 +60,6 @@ void printResult(uint32_t *arr, uint32_t iTotalSlot, LPRESULT pstResult)
         arr[dwSlotNum - 1] += dwTotal;
         showResult(arr, iTotalSlot);
         arr[dwSlotNum - 1] -= dwTotal;
-        return;
-    }
-
-    if (dwTotal == 1)
-    {
-        ++arr[0];
-        showResult(arr, iTotalSlot);
-        --arr[0];
         return;
     }
 
