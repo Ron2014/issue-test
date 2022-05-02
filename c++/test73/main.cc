@@ -133,5 +133,6 @@ int main(int argc, char *argv[])
     int m = atoi(argv[1]);
     int n = atoi(argv[2]);
     printResult(m, n);
-    return 137;
+
+    return 0;
 }
