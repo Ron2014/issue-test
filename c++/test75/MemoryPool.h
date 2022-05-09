@@ -16,8 +16,8 @@ typedef struct tagMemoryBlock
 {
     int iSize;
     bool bUsed;
-    int iPrev;  // >=0 上一个空块；-1 没有空块了
-    int iNext;  // >=0 下一个空块；-1 没有空块了
+    int iPrev;  // >=0 上一个块；-1 没有块了
+    int iNext;  // >=0 下一个块；-1 没有块了
     char szData[1];
 } MemoryBlock, MEMORYBLOCK, *LPMEMORYBLOCK;
 

@@ -1,13 +1,14 @@
 #include <iostream>
 using namespace std;
 
-int foo(const int &p)
+int foo(int &p)
 {
-    for (int i = 0; i < 10; i ++)
-    {
-        printf("hello\n");
-    }
-    cout << p << endl;
+    // for (int i = 0; i < 10; i ++)
+    // {
+    //     printf("hello\n");
+    // }
+    // cout << p << endl;
+    return 0;
 }
 
 int main(int argc, char *argv[])
