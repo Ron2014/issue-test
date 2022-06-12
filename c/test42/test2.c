@@ -23,7 +23,8 @@ int main()
     }
     printf("\n%d %d %d %d\n", f->_flags & _IONBF, f->_flags & _IOFBF, f->_flags & _IOLBF, f->_fileno);
 
-    printf("this is in file1.txt"); // 这句话在file1.txt中显示
+    printf("this is in file1.txt\n"); // 这句话在file1.txt中显示
+
     freopen("CON", "w", stdout);
     printf("And this is in command.\n"); //这句话在控制台上显示
     return 0;
