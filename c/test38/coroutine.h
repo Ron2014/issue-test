@@ -1,15 +1,15 @@
 #ifndef C_COROUTINE_H
 #define C_COROUTINE_H
 
-// Ğ­³ÌÊµÀıÔÚÔËĞĞÊ±µÄ×´Ì¬
-#define COROUTINE_DEAD 0                // ÒÑÖ´ĞĞ½áÊø
-#define COROUTINE_READY 1               // ¸Õ´´½¨£¬µÈ´ıÖ´ĞĞ
-#define COROUTINE_RUNNING 2             // Ö´ĞĞÖĞ
-#define COROUTINE_SUSPEND 3             // ¹ÒÆğ
+// åç¨‹å®ä¾‹åœ¨è¿è¡Œæ—¶çš„çŠ¶æ€
+#define COROUTINE_DEAD 0                // å·²æ‰§è¡Œç»“æŸ
+#define COROUTINE_READY 1               // åˆšåˆ›å»ºï¼Œç­‰å¾…æ‰§è¡Œ
+#define COROUTINE_RUNNING 2             // æ‰§è¡Œä¸­
+#define COROUTINE_SUSPEND 3             // æŒ‚èµ·
 
 struct schedule;
 
-typedef void (*coroutine_func)(struct schedule *, void *ud);        // º¯ÊıÔ­ĞÍ£¬Ğ­³ÌÆäÊµÊ±¶ÔËüµÄÒ»²ã wrapper
+typedef void (*coroutine_func)(struct schedule *, void *ud);        // å‡½æ•°åŸå‹ï¼Œåç¨‹å…¶å®æ—¶å¯¹å®ƒçš„ä¸€å±‚ wrapper
 
 struct schedule * coroutine_open(void);
 void coroutine_close(struct schedule *);
