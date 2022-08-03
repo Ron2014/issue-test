@@ -9,7 +9,8 @@ int main() {
 	int f = 0;
 	int g = 0;
 	int h = 1;
-  	int i = f/f;		// 1
+//	int i = 0;
+	int i = f/f;		// 1, MacOS: Floating point exception: 8
 	printf("%.2f %.2f %d\n", d, e, i);
 
   	//int j = g/f;		// crash
