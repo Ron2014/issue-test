@@ -35,6 +35,25 @@ int splitString1(const string &str, const char *delimiters, vector<string> &toke
     return 0;
 }
 
+// 多分隔符，C++
+int splitString12(const string &str, const string &delimiters, vector<string> &tokens)
+{
+    size_t start = 0, end = 0;
+    while ((end = str.find_first_of(delimiters, start)) != string::npos)
+    {
+        if (end != start)
+        {
+            tokens.push_back(str.substr(start, end - start));
+        }
+        start = end + 1;
+    }
+    if (start < str.length())
+    {
+        tokens.push_back(str.substr(start));
+    }
+    return 0;
+}
+
 // 多分隔符，C，会破坏原始字符串
 int splitString2(char *str, const char *delimiter, vector<string> &result)
 {
@@ -96,31 +115,29 @@ int showResult(vector<string> &result)
 
 int main()
 {
-    string str = "This is a long string, separated by multiple delimiters; let's split it into pieces!";
+    string str = "This is a long string,    separated by multiple delimiters; let's split it into pieces!";
     string delimiters = " ,;!'";
     vector<string> result;
     uint64_t start;
 
     // 有效性测试
+
     // {
     //     cout << "************" << endl;
-    //     str = "This is a long string, separated by multiple delimiters; let's split it into pieces!";
     //     result.clear();
-    //     splitString1(str, delimiters, result);
+    //     splitString1(str, delimiters.c_str(), result);
     //     cout << str.c_str() << endl;
     //     showResult(result);
     //     cout << result.size() << endl;
 
     //     cout << "************" << endl;
-    //     str = "This is a long string, separated by multiple delimiters; let's split it into pieces!";
     //     result.clear();
-    //     splitString2((char *)str.c_str(), (char *)delimiters.c_str(), result);
+    //     splitString2(str, (char *)delimiters.c_str(), result);
     //     cout << str.c_str() << endl;
     //     showResult(result);
     //     cout << result.size() << endl;
 
     //     cout << "************" << endl;
-    //     str = "This is a long string, separated by multiple delimiters; let's split it into pieces!";
     //     result.clear();
     //     splitString3(str, delimiters.c_str()[0], result);
     //     cout << str.c_str() << endl;
@@ -128,7 +145,6 @@ int main()
     //     cout << result.size() << endl;
 
     //     cout << "************" << endl;
-    //     str = "This is a long string, separated by multiple delimiters; let's split it into pieces!";
     //     result.clear();
     //     splitString4(str, delimiters.substr(0, 1), result);
     //     cout << str.c_str() << endl;
@@ -140,60 +156,76 @@ int main()
 
     // 多字节分割
 
-    cout << "************" << endl;
-    start = GetTimeUS();
-    for (int i = 0; i < 1000000; i++)
     {
-        // str = "This is a long string, separated by multiple delimiters; let's split it into pieces!";
-        result.clear();
-        splitString1(str, delimiters.c_str(), result);
-    }
-    cout << GetTimeUS() - start << endl;
 
-    cout << "************" << endl;
-    start = GetTimeUS();
-    for (int i = 0; i < 1000000; i++)
-    {
-        // str = "This is a long string, separated by multiple delimiters; let's split it into pieces!";
-        result.clear();
-        // splitString2((char *)str.c_str(), (char *)delimiters.c_str(), result);
-        splitString2(str, (char *)delimiters.c_str(), result);
-    }
-    cout << GetTimeUS() - start << endl;
+        cout << "************" << endl;
+        start = GetTimeUS();
+        for (int i = 0; i < 1000000; i++)
+        {
+            // str = "This is a long string, separated by multiple delimiters; let's split it into pieces!";
+            result.clear();
+            splitString1(str, delimiters.c_str(), result);
+        }
+        cout << GetTimeUS() - start << endl;
 
-    // 单字节分割
-    string strFrist = delimiters.substr(0, 1);
+        cout << "************" << endl;
+        start = GetTimeUS();
+        for (int i = 0; i < 1000000; i++)
+        {
+            // str = "This is a long string, separated by multiple delimiters; let's split it into pieces!";
+            result.clear();
+            splitString12(str, delimiters, result);
+        }
+        cout << GetTimeUS() - start << endl;
 
-    cout << "************" << endl;
-    start = GetTimeUS();
-    for (int i = 0; i < 1000000; i++)
-    {
-        // str = "This is a long string, separated by multiple delimiters; let's split it into pieces!";
-        result.clear();
-        splitString1(str, strFrist.c_str(), result);
+        cout << "************" << endl;
+        start = GetTimeUS();
+        for (int i = 0; i < 1000000; i++)
+        {
+            // str = "This is a long string, separated by multiple delimiters; let's split it into pieces!";
+            result.clear();
+            // splitString2((char *)str.c_str(), (char *)delimiters.c_str(), result);
+            splitString2(str, (char *)delimiters.c_str(), result);
+        }
+        cout << GetTimeUS() - start << endl;
     }
-    cout << GetTimeUS() - start << endl;
 
-    cout << "************" << endl;
-    start = GetTimeUS();
-    for (int i = 0; i < 1000000; i++)
-    {
-        // str = "This is a long string, separated by multiple delimiters; let's split it into pieces!";
-        result.clear();
-        // splitString2((char *)str.c_str(), (char *)strFrist.c_str(), result);
-        splitString2(str, (char *)strFrist.c_str(), result);
-    }
-    cout << GetTimeUS() - start << endl;
+    // // 单字节分割
 
-    cout << "************" << endl;
-    start = GetTimeUS();
-    for (int i = 0; i < 1000000; i++)
-    {
-        // str = "This is a long string, separated by multiple delimiters; let's split it into pieces!";
-        result.clear();
-        splitString3(str, strFrist.c_str()[0], result);
-    }
-    cout << GetTimeUS() - start << endl;
+    // {
+    //     string strFrist = delimiters.substr(0, 1);
+
+    //     cout << "************" << endl;
+    //     start = GetTimeUS();
+    //     for (int i = 0; i < 1000000; i++)
+    //     {
+    //         // str = "This is a long string, separated by multiple delimiters; let's split it into pieces!";
+    //         result.clear();
+    //         splitString1(str, strFrist.c_str(), result);
+    //     }
+    //     cout << GetTimeUS() - start << endl;
+
+    //     cout << "************" << endl;
+    //     start = GetTimeUS();
+    //     for (int i = 0; i < 1000000; i++)
+    //     {
+    //         // str = "This is a long string, separated by multiple delimiters; let's split it into pieces!";
+    //         result.clear();
+    //         // splitString2((char *)str.c_str(), (char *)strFrist.c_str(), result);
+    //         splitString2(str, (char *)strFrist.c_str(), result);
+    //     }
+    //     cout << GetTimeUS() - start << endl;
+
+    //     cout << "************" << endl;
+    //     start = GetTimeUS();
+    //     for (int i = 0; i < 1000000; i++)
+    //     {
+    //         // str = "This is a long string, separated by multiple delimiters; let's split it into pieces!";
+    //         result.clear();
+    //         splitString3(str, strFrist.c_str()[0], result);
+    //     }
+    //     cout << GetTimeUS() - start << endl;
+    // }
 
     return 0;
 }
